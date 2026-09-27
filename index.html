@@ -100,6 +100,7 @@ a{ color:inherit; } button{ font:inherit; color:inherit; }
 .pie-sitio .contenedor{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px 32px; padding-block:32px calc(32px + 64px); font-size:14px; color:var(--ink-2); }
 .pie-sitio nav{ display:flex; flex-wrap:wrap; gap:8px 22px; }
 .pie-sitio nav a{ text-decoration:none; color:var(--ink); }
+.pie-sitio nav button{ all:unset; cursor:pointer; color:var(--ink); font-size:inherit; }
 
 .flotante{ position:fixed; right:20px; bottom:calc(20px + env(safe-area-inset-bottom,0px)); z-index:30; height:56px; display:inline-flex; align-items:center; gap:10px; padding:0 22px 0 18px; border-radius:999px; background:var(--btn-bg); color:var(--btn-ink); border:0; cursor:pointer; font-size:15px; box-shadow:0 10px 30px rgba(40,34,26,.18); }
 .flotante svg{ width:20px; height:20px; }
@@ -151,6 +152,17 @@ dialog.guia p{ color:var(--ink-2); margin:0 0 12px; }
 .tabla-tallas th{ font-weight:500; color:var(--ink-2); }
 .aviso-flotante{ position:fixed; left:50%; bottom:calc(92px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); z-index:60; background:var(--btn-bg); color:var(--btn-ink); padding:12px 18px; border-radius:999px; font-size:14px; max-width:calc(100% - 32px); opacity:0; pointer-events:none; transition:opacity .2s ease; }
 .aviso-flotante.visible{ opacity:1; }
+.acciones-pie{ display:flex; align-items:center; gap:18px; }
+.banner-cookies{ position:fixed; left:16px; right:16px; bottom:calc(16px + env(safe-area-inset-bottom,0px)); z-index:70; background:var(--bg); color:var(--ink); border:1px solid var(--line); border-radius:var(--r-ventana); padding:18px 20px; box-shadow:0 10px 30px rgba(40,34,26,.18); display:flex; flex-wrap:wrap; gap:14px 20px; align-items:center; justify-content:space-between; max-width:820px; margin:0 auto; }
+.banner-cookies p{ margin:0; font-size:14px; color:var(--ink-2); flex:1 1 320px; }
+.banner-cookies .enlace-chico{ padding:0; font-size:14px; }
+.acciones-banner{ display:flex; gap:10px; flex-wrap:wrap; }
+.acciones-banner .btn, .acciones-banner .btn-linea{ height:44px; padding:0 18px; font-size:14px; }
+dialog.cookies .pref-cookie{ display:flex; align-items:center; gap:10px; font-size:15px; margin:2px 0 14px; cursor:pointer; }
+dialog.cookies .pref-cookie input{ width:18px; height:18px; }
+.acciones-cookies{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+.nota-cookies{ font-size:13px; margin-top:16px !important; }
+.marcador-editar{ background:#FFF3CD; color:#5c4300; padding:0 4px; border-radius:4px; }
 
 .cab .acciones{ display:flex; align-items:center; gap:6px; }
 .enlace-nav{ height:44px; display:inline-flex; align-items:center; padding:0 14px; border-radius:999px; text-decoration:none; font-size:14px; color:var(--ink); }
@@ -505,8 +517,11 @@ a.btn-linea{ text-decoration:none; }
 <footer class="pie-sitio">
   <div class="contenedor">
     <span>Jaspe. Joyería en oro. Guadalajara, Jalisco.</span>
-    <nav aria-label="Información"><a href="#catalogo">Catálogo</a><a href="#">Envíos</a><a href="#">Garantía</a><a href="#">Cambios</a><a href="#">Aviso de privacidad</a></nav>
-    <button class="enlace-chico" type="button" data-guia>Guía de tallas</button>
+    <nav aria-label="Información"><a href="#catalogo">Catálogo</a><a href="#">Envíos</a><a href="#">Garantía</a><a href="#">Cambios</a><button type="button" data-privacidad>Aviso de privacidad</button></nav>
+    <div class="acciones-pie">
+      <button class="enlace-chico" type="button" data-guia>Guía de tallas</button>
+      <button class="enlace-chico" type="button" data-cookies>Política de cookies</button>
+    </div>
   </div>
 </footer>
 
@@ -524,7 +539,56 @@ a.btn-linea{ text-decoration:none; }
   <h3>Pulseras</h3>
   <p>Mide tu muñeca con una cinta y súmale de 1 a 2 cm para que quede cómoda.</p>
 </dialog>
+
+<dialog class="guia cookies" id="dialogCookies" aria-labelledby="tituloCookies">
+  <button class="icono-btn cerrar" type="button" id="cerrarCookies" aria-label="Cerrar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <h2 id="tituloCookies">Política de cookies</h2>
+  <p>Usamos cookies y almacenamiento local del navegador para que Jaspe funcione bien, entender cómo usas el sitio y, si nos das permiso, mostrarte anuncios más relevantes. Aquí puedes ver qué usamos y cambiar tu decisión cuando quieras.</p>
+  <h3>Necesarias</h3>
+  <p>Indispensables para que el sitio funcione: recuerdan tus piezas favoritas y tu progreso en el cotizador. No se pueden desactivar porque el sitio no funcionaría sin ellas.</p>
+  <h3>De análisis</h3>
+  <p>Nos ayudan a entender qué páginas visitas y qué piezas te interesan más, usando Google Analytics. Es información agregada, no identifica quién eres.</p>
+  <label class="pref-cookie"><input type="checkbox" id="prefAnaliticas"><span>Permitir cookies de análisis</span></label>
+  <h3>De publicidad</h3>
+  <p>Se usan para medir y mejorar nuestros anuncios en Meta (Facebook e Instagram), por ejemplo cuando preguntas por una pieza o la apartas.</p>
+  <label class="pref-cookie"><input type="checkbox" id="prefMarketing"><span>Permitir cookies de publicidad</span></label>
+  <div class="acciones-cookies">
+    <button class="btn-linea" type="button" id="rechazarTodoCookies">Rechazar todas</button>
+    <button class="btn" type="button" id="guardarCookies">Guardar preferencias</button>
+  </div>
+  <p class="nota-cookies">Puedes cambiar esta decisión cuando quieras desde "Política de cookies", al final de la página. Para más detalles sobre el manejo de tus datos, consulta nuestro <button type="button" class="enlace-chico" data-privacidad style="padding:0">Aviso de privacidad</button>.</p>
+</dialog>
+
+<dialog class="guia privacidad" id="dialogPrivacidad" aria-labelledby="tituloPrivacidad">
+  <button class="icono-btn cerrar" type="button" id="cerrarPrivacidad" aria-label="Cerrar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <h2 id="tituloPrivacidad">Aviso de privacidad</h2>
+  <h3>1. Responsable de tus datos personales</h3>
+  <p>Juan Pablo López Tapia, operando bajo el nombre comercial Jaspe, con domicilio en Guadalajara, Jalisco, México, es responsable del tratamiento de tus datos personales conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).</p>
+  <h3>2. Datos personales que recabamos</h3>
+  <p>Para cotizarte, tomar tu pedido y hacerte llegar tu pieza, podemos pedirte: nombre, teléfono o WhatsApp, dirección de envío y, en su caso, correo electrónico. Los datos de pago (tarjeta, etc.) no los almacenamos nosotros: los procesa directamente la plataforma de pago o paquetería que utilices. También recabamos datos de navegación mediante cookies, según se detalla en nuestra Política de cookies.</p>
+  <h3>3. Para qué usamos tus datos</h3>
+  <p>Usamos tus datos para elaborar cotizaciones, confirmar y procesar tu pedido, coordinar envío o entrega, y darte seguimiento en garantías, cambios o aclaraciones.</p>
+  <p>De forma adicional, y solo si no te opones, nos gustaría usar tus datos para enviarte promociones o novedades de Jaspe. Si no quieres que los usemos para esto, avísanos por WhatsApp al 33 1361 3551, y dejaremos de hacerlo sin afectar el servicio que ya contrataste.</p>
+  <h3>4. Con quién compartimos tus datos</h3>
+  <p>No vendemos ni rentamos tus datos. Solo los compartimos, en lo estrictamente necesario, con: paqueterías (para entregarte tu pedido), la plataforma de pago que uses, y Google (Analytics) o Meta (Facebook/Instagram), estos últimos solo si aceptaste cookies de análisis o publicidad en nuestra Política de cookies.</p>
+  <h3>5. Cómo ejercer tus derechos ARCO</h3>
+  <p>Puedes Acceder, Rectificar o Cancelar tus datos personales, y Oponerte a su uso (derechos ARCO), así como revocar cualquier consentimiento que nos hayas dado. Para ejercerlos, escríbenos por WhatsApp al 33 1361 3551, indicando tu nombre y qué dato quieres consultar, corregir o eliminar. Te responderemos en un plazo máximo de 20 días hábiles.</p>
+  <h3>6. Uso de cookies</h3>
+  <p>Este sitio usa cookies y almacenamiento local del navegador. Puedes ver el detalle de cada tipo y elegir cuáles permitir en nuestra <button type="button" class="enlace-chico" data-cookies style="padding:0">Política de cookies</button>.</p>
+  <h3>7. Cambios a este aviso</h3>
+  <p>Podemos actualizar este aviso, por ejemplo si cambian nuestras prácticas o la ley aplicable. Cualquier cambio se publicará en esta misma página, indicando la fecha de la última actualización.</p>
+  <p class="nota-cookies">Última actualización: 27 de septiembre de 2026.</p>
+</dialog>
+
 <div class="aviso-flotante" id="aviso" role="status" aria-live="polite"></div>
+<div class="banner-cookies" id="bannerCookies" role="dialog" aria-live="polite" aria-label="Uso de cookies" hidden>
+  <p>Usamos cookies necesarias para que Jaspe funcione y, si nos das permiso, cookies de análisis y publicidad para mejorar tu experiencia. <button type="button" class="enlace-chico" id="verPoliticaCookies">Ver política de cookies</button></p>
+  <div class="acciones-banner">
+    <button class="btn-linea" type="button" id="rechazarCookies">Rechazar</button>
+    <button class="btn-linea" type="button" id="personalizarCookies">Personalizar</button>
+    <button class="btn" type="button" id="aceptarCookies">Aceptar todas</button>
+  </div>
+</div>
 
 <script>
 /* ============ CONFIGURACIÓN ============ */
@@ -633,19 +697,24 @@ function track(evento, datos = {}){
     }
   } catch(e){}
 }
-function cargarMedicion(){
-  if (CONFIG.ga4){
+function cargarMedicion(consentimiento){
+  if (CONFIG.ga4 && consentimiento && consentimiento.analiticas && !window.gtag){
     const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CONFIG.ga4); document.head.appendChild(s);
     window.dataLayer = window.dataLayer || []; window.gtag = function(){ dataLayer.push(arguments); };
     gtag('js', new Date()); gtag('config', CONFIG.ga4, { send_page_view:false });
   }
-  if (CONFIG.pixelMeta && !window.fbq){
+  if (CONFIG.pixelMeta && consentimiento && consentimiento.marketing && !window.fbq){
     const f = window.fbq = function(){ f.callMethod ? f.callMethod.apply(f, arguments) : f.queue.push(arguments); };
     f.push = f; f.loaded = true; f.version = '2.0'; f.queue = [];
     const t = document.createElement('script'); t.async = true; t.src = 'https://connect.facebook.net/en_US/fbevents.js'; document.head.appendChild(t);
     fbq('init', CONFIG.pixelMeta); fbq('track', 'PageView');
   }
 }
+/* ---------- cookies ---------- */
+const CLAVE_COOKIES = 'jaspe-cookies';
+function leerConsentimiento(){ try { return JSON.parse(localStorage.getItem(CLAVE_COOKIES)); } catch(e){ return null; } }
+function guardarConsentimiento(c){ try { localStorage.setItem(CLAVE_COOKIES, JSON.stringify({ ...c, fecha:new Date().toISOString() })); } catch(e){} }
+function marcarPreferencias(c){ $('#prefAnaliticas').checked = !!(c && c.analiticas); $('#prefMarketing').checked = !!(c && c.marketing); }
 function medirVista(vista){
   const titulos = { inicio:'Cotizar pieza', sets:'Sets para eventos', catalogo:'Catálogo' };
   try { if (window.gtag) gtag('event', 'page_view', { page_title:`Jaspe · ${titulos[vista] || vista}`, page_location:location.href, page_path:'/' + (vista === 'inicio' ? '' : vista) }); } catch(e){}
@@ -1062,6 +1131,27 @@ $('#tallasAnillo').innerHTML = [[5,15.7,49.3],[6,16.5,51.9],[7,17.3,54.4],[8,18.
 $('#cerrarGuia').onclick = () => guia.close();
 guia.addEventListener('click', e => { if (e.target === guia) guia.close(); });
 
+/* ---------- banner y dialog de cookies ---------- */
+const bannerCookies = $('#bannerCookies');
+const dialogCookies = $('#dialogCookies');
+function abrirDialogCookies(){ if (dialogPrivacidad.open) dialogPrivacidad.close(); marcarPreferencias(leerConsentimiento() || { analiticas:true, marketing:true }); dialogCookies.showModal(); }
+document.querySelectorAll('[data-cookies]').forEach(b => b.onclick = abrirDialogCookies);
+$('#verPoliticaCookies').onclick = abrirDialogCookies;
+$('#cerrarCookies').onclick = () => dialogCookies.close();
+dialogCookies.addEventListener('click', e => { if (e.target === dialogCookies) dialogCookies.close(); });
+$('#aceptarCookies').onclick = () => { const c = { necesarias:true, analiticas:true, marketing:true }; guardarConsentimiento(c); cargarMedicion(c); bannerCookies.hidden = true; };
+$('#rechazarCookies').onclick = () => { guardarConsentimiento({ necesarias:true, analiticas:false, marketing:false }); bannerCookies.hidden = true; };
+$('#personalizarCookies').onclick = abrirDialogCookies;
+$('#guardarCookies').onclick = () => { const c = { necesarias:true, analiticas:$('#prefAnaliticas').checked, marketing:$('#prefMarketing').checked }; guardarConsentimiento(c); cargarMedicion(c); bannerCookies.hidden = true; dialogCookies.close(); };
+$('#rechazarTodoCookies').onclick = () => { guardarConsentimiento({ necesarias:true, analiticas:false, marketing:false }); bannerCookies.hidden = true; dialogCookies.close(); };
+
+/* ---------- aviso de privacidad ---------- */
+const dialogPrivacidad = $('#dialogPrivacidad');
+function abrirDialogPrivacidad(){ if (dialogCookies.open) dialogCookies.close(); dialogPrivacidad.showModal(); }
+document.querySelectorAll('[data-privacidad]').forEach(b => b.onclick = abrirDialogPrivacidad);
+$('#cerrarPrivacidad').onclick = () => dialogPrivacidad.close();
+dialogPrivacidad.addEventListener('click', e => { if (e.target === dialogPrivacidad) dialogPrivacidad.close(); });
+
 /* ---------- inicio ---------- */
 (function(){
   const h = PRODUCTOS.find(x => x.codigo === 'JAS-073') || PRODUCTOS[0];
@@ -1077,7 +1167,8 @@ guia.addEventListener('click', e => { if (e.target === guia) guia.close(); });
   $('#diasPrecioPasos').textContent = CONFIG.diasPrecio;
   pintarChips();
   irPaso(1, false);
-  cargarMedicion();
+  const consentimiento = leerConsentimiento();
+  if (consentimiento) cargarMedicion(consentimiento); else bannerCookies.hidden = false;
   aplicarVista();
 })();
 </script>
