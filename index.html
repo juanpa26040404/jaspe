@@ -541,7 +541,6 @@ const CONFIG = {
   redondeo: { oro: 50, plata: 10 },     // el precio sube al múltiplo más cercano y termina en 9
   referencia: { 10: '04', 14: '14K' },  // catálogo que se usa para la referencia del cotizador
   pureza: { 10: 0.417, 14: 0.585, 18: 0.75 },
-  msi: 6,
   horario: 'lunes a sábado, de 10 a 20 h',
   diasPrecio: 3,
   porLote: 24,                        // piezas que se cargan cada vez
@@ -574,7 +573,6 @@ function precioPorPeso(p, peso){
   return (cg && peso) ? redondear(peso * cg * m, p.metal) : null;
 }
 function precio(p, variante){ return precioPorPeso(p, variante ? variante.peso : p.peso); }
-function mensualidad(t){ return Math.ceil(t / CONFIG.msi); }
 function metalTexto(p){
   if (p.metal === 'oro') return `Oro ${p.k}k`;
   if (p.moissanita) return 'Plata .925 con moissanita';
@@ -905,13 +903,21 @@ function pintarFiltros(){
   $('#categorias').innerHTML = CATEGORIAS.map(([c, ic]) => `<button class="filtro-ic" type="button" data-cat="${c}" aria-pressed="${estado.categoria === c}"><span class="ic">${ICON[ic]}</span><span class="t">${c}</span></button>`).join('');
 }
 function lista(){
-  return PRODUCTOS.filter(p => {
+  const filtrados = PRODUCTOS.filter(p => {
     if (estado.grupo === 'favoritos' && !favoritos.includes(p.codigo)) return false;
     if (!['todo','favoritos'].includes(estado.grupo) && !p.para.includes(estado.grupo)) return false;
     if (estado.metal !== 'todo' && p.metal !== estado.metal) return false;
     if (estado.categoria !== 'Todas' && p.categoria !== estado.categoria) return false;
     return true;
   });
+  // técnica de anclaje: mostramos primero las piezas más caras del filtro actual,
+  // para que el resto del catálogo se perciba más barato por comparación.
+  const ANCLAS = 3;
+  const conPrecio = filtrados.filter(p => precio(p));
+  const anclas = [...conPrecio].sort((a, b) => precio(b) - precio(a)).slice(0, ANCLAS);
+  const anclasCod = new Set(anclas.map(p => p.codigo));
+  const resto = filtrados.filter(p => !anclasCod.has(p.codigo));
+  return [...anclas, ...resto];
 }
 function tarjeta(p){
   const total = precio(p);
@@ -924,7 +930,7 @@ function tarjeta(p){
     <div class="pie">
       <h3>${esc(p.nombre)}</h3>
       <div class="meta">${metalTexto(p)}${pesoTexto(p) ? ', ' + pesoTexto(p) : ''}</div>
-      ${total ? `<div class="precio"><strong>${p.variantes && p.variantes.length > 1 ? 'desde ' : ''}${moneda.format(total)}</strong><span>o ${CONFIG.msi} meses de ${moneda.format(mensualidad(total))}</span></div>` : '<div class="precio"><strong style="font-size:15px;font-weight:400">Precio por WhatsApp</strong></div>'}
+      ${total ? `<div class="precio"><strong>${p.variantes && p.variantes.length > 1 ? 'desde ' : ''}${moneda.format(total)}</strong></div>` : '<div class="precio"><strong style="font-size:15px;font-weight:400">Precio por WhatsApp</strong></div>'}
       <button class="preguntar" type="button" data-preguntar="${p.codigo}">${ICON.wa}Preguntar disponibilidad</button>
     </div>
   </article>`;
@@ -1010,7 +1016,7 @@ function abrirFicha(codigo, actualizarHash = true){
         <button class="icono-btn cerrar" type="button" id="cerrarFicha" aria-label="Cerrar">${ICON.cerrar}</button>
         <div class="estado"><span>${ICON.reloj}Sobre pedido, confirma disponibilidad</span></div>
         <h2 id="fichaNombre">${esc(p.nombre)}</h2>
-        ${total ? `<div class="precio"><strong>${moneda.format(total)}</strong><span>o ${CONFIG.msi} meses sin intereses de ${moneda.format(mensualidad(total))}</span></div>
+        ${total ? `<div class="precio"><strong>${moneda.format(total)}</strong></div>
         <div class="nota">${p.metal === 'oro' ? `Precio con IVA incluido. Te lo respetamos ${CONFIG.diasPrecio} días aunque el oro suba.` : `Precio con IVA incluido${p.variantes ? `, para ${pesoSel} g ${p.pesoRef || ''}; cambia según el largo que elijas` : ''}.`}</div>`
         : `<div class="precio"><strong style="font-size:20px;font-weight:400">Precio por WhatsApp</strong></div><div class="nota">Te cotizamos según el calibre y el largo.</div>`}
         <dl class="specs">
