@@ -169,6 +169,16 @@ dialog.guia p{ color:var(--ink-2); margin:0 0 12px; }
 dialog.cookies .pref-cookie{ display:flex; align-items:center; gap:10px; font-size:15px; margin:2px 0 14px; cursor:pointer; }
 dialog.cookies .pref-cookie input{ width:18px; height:18px; }
 .acciones-cookies{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+.historial{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.historial li{ border:1px solid var(--line); border-radius:12px; padding:12px 14px; font-size:14px; display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+.historial li .t{ display:grid; gap:2px; } .historial li small{ color:var(--ink-2); font-size:12.5px; }
+.historial li.vacio-h{ border-style:dashed; color:var(--ink-2); }
+.historial .etq{ font-size:12px; padding:3px 10px; border-radius:999px; background:var(--panel); white-space:nowrap; }
+.historial a, .historial button{ font-size:13px; color:var(--ink); }
+.historial button{ background:none; border:0; text-decoration:underline; cursor:pointer; padding:0; }
+.nueva-dir{ margin-top:12px; } .nueva-dir summary{ list-style:none; display:inline-flex; align-items:center; cursor:pointer; }
+.nueva-dir summary::-webkit-details-marker{ display:none; }
+.form-dir{ margin-top:10px; } .dos-campos{ display:grid; grid-template-columns:1fr 1fr; gap:0 12px; }
 .nota-cookies{ font-size:13px; margin-top:16px !important; }
 .marcador-editar{ background:#FFF3CD; color:#5c4300; padding:0 4px; border-radius:4px; }
 
@@ -382,8 +392,7 @@ a.btn-linea{ text-decoration:none; }
   <div class="contenedor">
     <a class="marca" href="#inicio" aria-label="Jaspe, inicio">JASPE</a>
     <div class="acciones">
-      <a class="enlace-nav oculto-inicio" href="#cotizar">Cotizar</a>
-      <a class="enlace-nav oculto-catalogo" href="#catalogo">Catálogo</a>
+      <a class="enlace-nav" href="#catalogo">Catálogo</a>
       <button class="pill cuenta-btn" type="button" id="abrirCuenta" aria-label="Mi cuenta" title="Mi cuenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.8 20c.9-3.6 3.8-5.4 7.2-5.4s6.3 1.8 7.2 5.4"/></svg></button>
       <button class="pill" type="button" data-wa="directo"><svg class="icono-wa" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg><span class="texto">WhatsApp</span></button>
     </div>
@@ -571,7 +580,31 @@ a.btn-linea{ text-decoration:none; }
       <button class="btn" type="button" id="cuentaVerPiezas">Ver mis piezas</button>
       <button class="btn-linea" type="button" id="cuentaSalir">Cerrar sesión</button>
     </div>
-    <p class="nota-cookies">Al cerrar sesión, tus piezas dejan de mostrarse en este dispositivo, pero siguen guardadas en tu cuenta.</p>
+    <h3>Mis pedidos</h3>
+    <ul class="historial" id="listaPedidos"><li class="vacio-h">Cargando…</li></ul>
+    <h3>Mis cotizaciones y consultas</h3>
+    <ul class="historial" id="listaCotizaciones"><li class="vacio-h">Cargando…</li></ul>
+    <h3>Mis direcciones de entrega</h3>
+    <ul class="historial" id="listaDirecciones"><li class="vacio-h">Cargando…</li></ul>
+    <details class="nueva-dir" id="nuevaDir">
+      <summary class="btn-linea">Agregar dirección</summary>
+      <form id="formDireccion" class="form-dir" novalidate>
+        <label class="campo-cuenta"><span>Nombre de quien recibe</span><input name="recibe" required maxlength="120" autocomplete="name"></label>
+        <label class="campo-cuenta"><span>Teléfono</span><input name="telefono" required inputmode="tel" maxlength="20" autocomplete="tel"></label>
+        <label class="campo-cuenta"><span>Calle y número</span><input name="calle" required maxlength="200" autocomplete="street-address"></label>
+        <label class="campo-cuenta"><span>Colonia</span><input name="colonia" maxlength="120"></label>
+        <div class="dos-campos">
+          <label class="campo-cuenta"><span>Código postal</span><input name="cp" required inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="postal-code"></label>
+          <label class="campo-cuenta"><span>Ciudad</span><input name="ciudad" required maxlength="80" autocomplete="address-level2"></label>
+        </div>
+        <label class="campo-cuenta"><span>Estado</span><input name="estado" required maxlength="60" autocomplete="address-level1"></label>
+        <label class="campo-cuenta"><span>Referencias (opcional)</span><input name="referencias" maxlength="300" placeholder="Entre calles, color de la casa…"></label>
+        <label class="campo-cuenta"><span>Nombre para esta dirección (opcional)</span><input name="alias" maxlength="40" placeholder="Casa, oficina…"></label>
+        <button class="btn" type="submit">Guardar dirección</button>
+        <p class="cuenta-error" id="errorDireccion" role="alert" hidden></p>
+      </form>
+    </details>
+    <p class="nota-cookies">Al cerrar sesión, tu información deja de mostrarse en este dispositivo, pero sigue guardada en tu cuenta.</p>
   </div>
 </dialog>
 
@@ -846,6 +879,60 @@ function ponerModoCuenta(m){
   $('#cuentaIntro').textContent = m === 'crear' ? 'Crea tu cuenta para guardar tus piezas favoritas y verlas desde cualquier dispositivo.' : 'Entra para ver y guardar tus piezas favoritas desde cualquier dispositivo.';
   errorCuenta('');
 }
+
+/* ---------- historial del cliente (Supabase) ---------- */
+async function registrar(tipo, folio, datos, pdf_url){
+  if (!CUENTAS) return;
+  try {
+    const token = await tokenValido();
+    await fetch(SB.url + '/rest/v1/cotizaciones', { method:'POST', headers:{ ...sbCabeceras(token), Prefer:'return=minimal' },
+      body:JSON.stringify({ folio, tipo, datos, pdf_url:pdf_url || null, user_id:token && sesion ? sesion.id : null }) });
+  } catch(e){}   // si falla, el mensaje de WhatsApp igual sale
+}
+async function sbLeer(ruta){
+  const token = await tokenValido(); if (!token) return [];
+  const r = await fetch(SB.url + '/rest/v1/' + ruta, { headers:sbCabeceras(token) });
+  if (!r.ok) throw new Error('leer'); return r.json();
+}
+let direcciones = [];
+function fechaCorta(iso){ return new Date(iso).toLocaleDateString('es-MX', { day:'numeric', month:'short', year:'numeric' }); }
+function textoDireccion(d){ return [d.calle, d.colonia, `C.P. ${d.cp}`, `${d.ciudad}, ${d.estado}`].filter(Boolean).join(', ') + (d.referencias ? ` (${d.referencias})` : ''); }
+async function pintarHistorial(){
+  if (!sesion) return;
+  const vacio = t => `<li class="vacio-h">${t}</li>`;
+  try {
+    const [ped, cot, dir] = await Promise.all([
+      sbLeer('pedidos?select=folio,piezas,total,anticipo,estado,guia,creado&order=creado.desc'),
+      sbLeer('cotizaciones?select=folio,tipo,datos,pdf_url,creada&order=creada.desc&limit=50'),
+      sbLeer('direcciones?select=*&order=creada.asc')
+    ]);
+    direcciones = dir;
+    $('#listaPedidos').innerHTML = ped.length ? ped.map(p => `<li><span class="t"><strong>${esc(p.piezas)}</strong><small>${fechaCorta(p.creado)}${p.folio ? ' · ' + esc(p.folio) : ''}${p.total ? ' · ' + moneda.format(p.total) : ''}${p.anticipo ? ' · anticipo ' + moneda.format(p.anticipo) : ''}${p.guia ? ' · guía ' + esc(p.guia) : ''}</small></span><span class="etq">${esc(p.estado)}</span></li>`).join('') : vacio('Aún no tienes pedidos. Cuando apartes una pieza, aquí verás su estado.');
+    const TIPOS = { cotizador:'Cotización', consulta:'Consulta', apartado:'Apartado' };
+    $('#listaCotizaciones').innerHTML = cot.length ? cot.map(c => { const d = c.datos || {}; const titulo = d.nombre || d.Pieza || d['Descripción'] || 'Pieza'; const det = d.codigo ? d.codigo : [d['Peso aproximado'], d.Kilataje].filter(Boolean).join(' · ');
+      return `<li><span class="t"><strong>${esc(TIPOS[c.tipo] || c.tipo)}: ${esc(titulo)}</strong><small>${fechaCorta(c.creada)} · ${esc(c.folio)}${det ? ' · ' + esc(det) : ''}</small></span>${c.pdf_url ? `<a href="${esc(c.pdf_url)}" target="_blank" rel="noopener">Ver PDF</a>` : ''}</li>`; }).join('') : vacio('Aquí aparecerán tus cotizaciones y las piezas por las que preguntes.');
+    $('#listaDirecciones').innerHTML = dir.length ? dir.map(d => `<li><span class="t"><strong>${esc(d.alias || d.recibe)}</strong><small>${esc(d.recibe)} · ${esc(d.telefono)}<br>${esc(textoDireccion(d))}</small></span><button type="button" data-borrar-dir="${d.id}">Borrar</button></li>`).join('') : vacio('No tienes direcciones guardadas.');
+  } catch(e){ avisar('No pudimos cargar tu historial. Inténtalo de nuevo.'); }
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-borrar-dir]'); if (!b) return;
+  const token = await tokenValido(); if (!token) return;
+  const r = await fetch(SB.url + '/rest/v1/direcciones?id=eq.' + encodeURIComponent(b.dataset.borrarDir), { method:'DELETE', headers:sbCabeceras(token) });
+  if (r.ok) pintarHistorial(); else avisar('No pudimos borrar la dirección.');
+});
+$('#formDireccion').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target; const err = $('#errorDireccion'); err.hidden = true;
+  const d = Object.fromEntries([...new FormData(f)].map(([k, v]) => [k, String(v).trim()]));
+  if (!d.recibe || !d.telefono || !d.calle || !d.ciudad || !d.estado){ err.textContent = 'Llena los campos obligatorios.'; err.hidden = false; return; }
+  if (!/^\d{5}$/.test(d.cp)){ err.textContent = 'El código postal debe tener 5 dígitos.'; err.hidden = false; return; }
+  if (d.telefono.replace(/\D/g, '').length < 10){ err.textContent = 'Escribe un teléfono de 10 dígitos.'; err.hidden = false; return; }
+  for (const k of ['colonia','referencias','alias']) if (!d[k]) delete d[k];
+  const token = await tokenValido(); if (!token){ err.textContent = 'Tu sesión expiró. Vuelve a entrar.'; err.hidden = false; return; }
+  const r = await fetch(SB.url + '/rest/v1/direcciones', { method:'POST', headers:{ ...sbCabeceras(token), Prefer:'return=minimal' }, body:JSON.stringify(d) });
+  if (!r.ok){ err.textContent = 'No pudimos guardar la dirección. Revisa los datos.'; err.hidden = false; return; }
+  f.reset(); $('#nuevaDir').open = false; avisar('Dirección guardada.'); pintarHistorial();
+});
 
 /* ---------- cookies ---------- */
 const CLAVE_COOKIES = 'jaspe-cookies';
@@ -1157,10 +1244,9 @@ async function subirArchivo(f){
 }
 function folioNuevo(){ const d = new Date(); const p = n => String(n).padStart(2, '0'); return `JSP-${String(d.getFullYear()).slice(2)}${p(d.getMonth() + 1)}${p(d.getDate())}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`; }
 function fechaLarga(){ return new Date().toLocaleDateString('es-MX', { day:'numeric', month:'long', year:'numeric' }); }
-async function armarPdf(datos){
+async function armarPdf(datos, folio){
   const fotos = [];
   for (const f of archivos){ if (/^image\//.test(f.type)){ try { fotos.push(await aJPEG(f, 1400, 0.85)); } catch(err){} } }
-  const folio = folioNuevo();
   const logo = CONFIG.logoPdf ? await jpegDeDataURI(CONFIG.logoPdf) : null;
   const blob = await generarPDF(datos, fotos, { logo, fecha:fechaLarga(), folio:'Folio ' + folio, pie:CONFIG.piePdf || '', nota:'Precio de referencia con el oro del día; el precio final te lo confirmamos por WhatsApp. Sello de kilataje, peso exacto y garantía por escrito en cada pieza.' });
   return new File([blob], `Cotizacion-Jaspe-${folio}.pdf`, { type:'application/pdf' });
@@ -1189,8 +1275,9 @@ $('#cotizar').addEventListener('submit', async e => {
   const ventana = window.open('about:blank', '_blank');   // se abre antes de esperar, para que el navegador no lo bloquee
   btn.disabled = true; btn.dataset.texto = btn.innerHTML; btn.innerHTML = 'Preparando tu cotización…';
   let enlacePdf = null; const otros = [];
+  const folio = folioNuevo(); lineas.splice(1, 0, `Folio: ${folio}`);
   try {
-    pdfActual = { archivo: await armarPdf(datos), url:null };
+    pdfActual = { archivo: await armarPdf(datos, folio), url:null };
     if (hayServidor()){
       try { enlacePdf = await subirArchivo(pdfActual.archivo); pdfActual.url = enlacePdf; } catch(err){ enlacePdf = null; }
       for (const f of archivos){ if (!/^image\//.test(f.type)){ try { otros.push(await subirArchivo(f)); } catch(err){} } }
@@ -1200,11 +1287,13 @@ $('#cotizar').addEventListener('submit', async e => {
   if (enlacePdf) lineas.push(`Cotización en PDF${archivos.some(f => /^image\//.test(f.type)) ? ' (con la foto)' : ''}: ${enlacePdf}`);
   else lineas.push('Ahorita te mando la cotización en PDF.');
   otros.forEach(u => lineas.push(`Archivo adjunto: ${u}`));
+  registrar('cotizador', folio, Object.fromEntries(datos), enlacePdf);
   if (abrirWhatsApp(lineas.join('\n'), ventana)) mostrarPasoPdf(!!enlacePdf);
 });
 
 /* ---------- catálogo ---------- */
 function pintarFiltros(){
+  if (estado.grupo === 'favoritos' && !favoritos.length) estado.grupo = 'todo';
   $('#grupos').innerHTML = GRUPOS.map(([v, t, ic]) => `<button class="pill-filtro" type="button" data-grupo="${v}" aria-pressed="${estado.grupo === v}">${ICON[ic]}${t}</button>`).join('')
     + (favoritos.length ? `<button class="pill-filtro" type="button" data-grupo="favoritos" aria-pressed="${estado.grupo === 'favoritos'}">${ICON.favoritos}Tus piezas</button>` : '');
   $('#metales').innerHTML = METALES.map(([v, t]) => `<button class="pill-filtro" type="button" data-metal="${v}" aria-pressed="${estado.metal === v}">${t}</button>`).join('');
@@ -1271,6 +1360,7 @@ document.addEventListener('click', e => {
   const q = e.target.closest('[data-preguntar]'); if (q){
     const p = PRODUCTOS.find(x => x.codigo === q.dataset.preguntar);
     track('Contact', { content_ids:[p.codigo], value:precio(p) || 0, currency:'MXN' });
+    registrar('consulta', folioNuevo(), { codigo:p.codigo, nombre:p.nombre, precio:precio(p) });
     abrirWhatsApp(mensajePregunta(p)); return;
   }
   if (e.target.closest('[data-guia]')){ const g2 = $('#guia'); if (typeof g2.showModal === 'function') g2.showModal(); else g2.setAttribute('open', ''); }
@@ -1354,8 +1444,13 @@ function abrirFicha(codigo, actualizarHash = true){
     $('#cerrarFicha').onclick = () => ficha.close();
     ficha.querySelectorAll('[data-medida]').forEach(b => b.onclick = () => { sel.medida = b.dataset.medida; pintar(); });
     ficha.querySelectorAll('[data-variante]').forEach(b => b.onclick = () => { sel.variante = p.variantes[+b.dataset.variante]; pintar(); });
-    $('#preguntarFicha').onclick = () => { track('Contact', { content_ids:[p.codigo], value:precio(p, sel.variante) || 0, currency:'MXN' }); abrirWhatsApp(mensajePregunta(p, sel)); };
-    $('#apartarFicha').onclick = () => { track('InitiateCheckout', { content_ids:[p.codigo] }); abrirWhatsApp(`Hola, quiero apartar ${p.nombre} (${p.codigo}), ${metalTexto(p).toLowerCase()}. Ref. ${p.ref}. La vi aquí: ${enlacePieza(p.codigo)} ¿Cuánto es el anticipo?`); };
+    $('#preguntarFicha').onclick = () => { track('Contact', { content_ids:[p.codigo], value:precio(p, sel.variante) || 0, currency:'MXN' }); registrar('consulta', folioNuevo(), { codigo:p.codigo, nombre:p.nombre, precio:precio(p, sel.variante), medida:sel.medida, calibre:sel.variante && sel.variante.cal }); abrirWhatsApp(mensajePregunta(p, sel)); };
+    $('#apartarFicha').onclick = () => {
+      track('InitiateCheckout', { content_ids:[p.codigo] });
+      const folio = folioNuevo(); const dir = sesion && direcciones[0];
+      registrar('apartado', folio, { codigo:p.codigo, nombre:p.nombre, precio:precio(p, sel.variante), medida:sel.medida, calibre:sel.variante && sel.variante.cal, direccion:dir ? textoDireccion(dir) : undefined });
+      abrirWhatsApp(`Hola, quiero apartar ${p.nombre} (${p.codigo}), ${metalTexto(p).toLowerCase()}${sel.medida ? `, ${p.medida.etiqueta.toLowerCase()} ${sel.medida}` : ''}. Folio: ${folio}. Ref. ${p.ref}. La vi aquí: ${enlacePieza(p.codigo)}${dir ? `\nEnvío a: ${dir.recibe}, ${dir.telefono}, ${textoDireccion(dir)}` : ''}\n¿Cuánto es el anticipo?`);
+    };
   };
   pintar();
   if (typeof ficha.showModal === 'function') ficha.showModal(); else ficha.setAttribute('open', '');
@@ -1394,7 +1489,7 @@ dialogPrivacidad.addEventListener('click', e => { if (e.target === dialogPrivaci
 /* ---------- cuenta ---------- */
 const dialogCuenta = $('#dialogCuenta');
 if (!CUENTAS) $('#abrirCuenta').hidden = true;
-$('#abrirCuenta').onclick = () => { pintarCuenta(); ponerModoCuenta('entrar'); dialogCuenta.showModal(); };
+$('#abrirCuenta').onclick = () => { pintarCuenta(); ponerModoCuenta('entrar'); dialogCuenta.showModal(); pintarHistorial(); };
 $('#cerrarCuenta').onclick = () => dialogCuenta.close();
 dialogCuenta.addEventListener('click', e => { if (e.target === dialogCuenta) dialogCuenta.close(); });
 const MENSAJES_CUENTA = {
@@ -1416,6 +1511,7 @@ async function enviarCuenta(){
     guardarSesion(await autenticar(modoCuenta, email, clave));
     $('#cuentaClave').value = '';
     await sincronizar(true);
+    pintarHistorial();
     avisar(modoCuenta === 'crear' ? 'Cuenta creada.' : 'Sesión iniciada.');
   } catch(e){ errorCuenta(MENSAJES_CUENTA[e.message] || MENSAJES_CUENTA.otro); }
   b.disabled = false;
@@ -1452,7 +1548,7 @@ $('#cuentaSalir').onclick = () => {
   $('#diasPrecioPasos').textContent = CONFIG.diasPrecio;
   pintarChips();
   irPaso(1, false);
-  if (CUENTAS){ pintarCuenta(); if (sesion) sincronizar(false); }
+  if (CUENTAS){ pintarCuenta(); if (sesion){ sincronizar(false); pintarHistorial(); } }
   const consentimiento = leerConsentimiento();
   if (consentimiento) cargarMedicion(consentimiento); else bannerCookies.hidden = false;
   aplicarVista();
