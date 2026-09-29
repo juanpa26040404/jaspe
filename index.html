@@ -114,7 +114,7 @@ dialog.ficha::backdrop{ background:var(--backdrop); backdrop-filter:blur(3px); }
 .ficha-info{ padding:clamp(24px,4vw,48px); display:flex; flex-direction:column; gap:16px; position:relative; }
 .icono-btn{ width:44px; height:44px; display:inline-grid; place-items:center; background:none; border:0; cursor:pointer; color:var(--ink); border-radius:50%; }
 .cerrar{ position:absolute; right:10px; top:10px; }
-.aviso-precio{ display:flex; align-items:center; gap:14px 20px; flex-wrap:wrap; margin:0 0 22px; padding:14px 18px; border:1px solid var(--gold); border-radius:12px; background:var(--surface); }
+.aviso-precio{ display:flex; align-items:center; gap:14px 20px; flex-wrap:wrap; margin:0 0 22px; padding:14px 18px; border:1px solid var(--gold); border-radius:12px; background:transparent; }
 .aviso-precio p{ flex:1 1 260px; margin:0; font-size:14px; color:var(--ink-2); } .aviso-precio strong{ color:var(--ink); }
 .estado{ display:flex; flex-wrap:wrap; gap:8px; font-size:13px; }
 .estado span{ display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 12px; background:var(--panel); border-radius:999px; }
@@ -317,7 +317,20 @@ textarea.entrada{ height:auto; min-height:80px; padding:12px 14px; resize:vertic
 /* vistas: inicio (cotizar), sets y catálogo */
 body:not([data-vista="inicio"]) .solo-inicio{ display:none !important; }
 body:not([data-vista="catalogo"]) .solo-catalogo{ display:none !important; }
-body:not([data-vista="sets"]) .solo-sets{ display:none !important; }
+body:not([data-vista="sets"]) .solo-sets{ display:none !important; } body:not([data-vista="carrito"]) .solo-carrito{ display:none !important; }
+.carrito-btn{ position:relative; padding:0 12px; text-decoration:none; } .carrito-btn .contador{ position:absolute; top:-6px; right:-6px; min-width:20px; height:20px; padding:0 5px; border-radius:999px; background:var(--gold); color:#1F1F1E; font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center; }
+.carrito-vista{ padding-block:clamp(24px,4vw,48px) 140px; } .carrito-vista h2{ font-family:var(--display); font-weight:400; font-size:clamp(30px,4vw,44px); margin:0 0 8px; }
+.carro-lista{ list-style:none; margin:24px 0 0; padding:0; border-top:1px solid var(--line); }
+.carro-item{ display:grid; grid-template-columns:88px minmax(0,1fr) auto; gap:16px; align-items:center; padding:16px 0; border-bottom:1px solid var(--line); }
+.carro-item img{ width:88px; height:88px; object-fit:contain; background:var(--surface); border-radius:12px; }
+.carro-item h3{ font-size:16px; font-weight:500; margin:0 0 4px; } .carro-item .meta{ font-size:13px; color:var(--ink-2); }
+.carro-item .derecha{ display:flex; flex-direction:column; align-items:flex-end; gap:8px; } .carro-item .precio-linea{ font-weight:500; white-space:nowrap; }
+.cantidad{ display:inline-flex; align-items:center; border:1px solid var(--line); border-radius:999px; } .cantidad button{ width:36px; height:36px; border:0; background:none; color:var(--ink); font-size:18px; cursor:pointer; } .cantidad span{ min-width:22px; text-align:center; font-size:14px; }
+.quitar{ background:none; border:0; color:var(--ink-2); text-decoration:underline; font-size:13px; cursor:pointer; padding:4px 0; }
+.carro-total{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px 24px; padding:20px 0; } .carro-total strong{ font-family:var(--display); font-weight:400; font-size:30px; } .carro-total span{ color:var(--ink-2); font-size:14px; }
+.carro-ctas{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; } .carro-vacio{ padding:32px 0; color:var(--ink-2); }
+.card .agregar{ margin-top:8px; height:40px; width:100%; display:inline-flex; align-items:center; justify-content:center; gap:8px; border:1px solid var(--line); border-radius:999px; background:none; color:var(--ink); font-size:14px; cursor:pointer; } .card .agregar:hover{ border-color:var(--ink); }
+@media (max-width:560px){ .carro-item{ grid-template-columns:64px minmax(0,1fr); } .carro-item img{ width:64px; height:64px; } .carro-item .derecha{ grid-column:2; flex-direction:row; justify-content:space-between; align-items:center; } .carrito-btn{ padding:0 10px; } }
 body[data-vista="inicio"] .oculto-inicio, body[data-vista="catalogo"] .oculto-catalogo, body[data-vista="sets"] .oculto-sets{ display:none !important; }
 a.btn-linea{ text-decoration:none; }
 
@@ -389,7 +402,7 @@ a.btn-linea{ text-decoration:none; }
   .ficha .foto{ min-height:0; aspect-ratio:1/1; height:auto; }
   .ficha-info{ padding-bottom:120px; }
   .ctas{ position:fixed; left:0; right:0; bottom:0; background:var(--bg); border-top:1px solid var(--line); border-radius:20px 20px 0 0; padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px)); z-index:5; }
-  .ctas .btn-linea{ display:none; }
+  .ctas #apartarFicha{ display:none; } .ctas #carritoFicha{ height:44px; } .ctas small{ display:none; }
 }
 </style>
 </head>
@@ -400,6 +413,7 @@ a.btn-linea{ text-decoration:none; }
     <a class="marca" href="#inicio" aria-label="Jaspe, inicio">JASPE</a>
     <div class="acciones">
       <a class="enlace-nav" href="#catalogo">Catálogo</a>
+      <a class="pill carrito-btn" href="#carrito" id="botonCarrito" aria-label="Carrito de cotización" title="Carrito"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span class="contador" id="contadorCarrito" hidden>0</span></a>
       <button class="pill cuenta-btn" type="button" id="abrirCuenta" aria-label="Mi cuenta" title="Mi cuenta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M4.8 20c.9-3.6 3.8-5.4 7.2-5.4s6.3 1.8 7.2 5.4"/></svg></button>
       <button class="pill" type="button" data-wa="directo"><svg class="icono-wa" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg><span class="texto">WhatsApp</span></button>
     </div>
@@ -519,6 +533,14 @@ a.btn-linea{ text-decoration:none; }
         <li><h3>Te cotizamos con el oro del día</h3><p>Precio final por gramo según el kilataje.</p></li>
         <li><h3>La hacemos y te la entregamos</h3><p>Con su sello, video de tu pieza en la báscula y garantía por escrito. En persona en Guadalajara o con envío asegurado.</p></li>
       </ol>
+    </div>
+  </section>
+
+  <section class="carrito-vista solo-carrito" id="carrito" aria-labelledby="tituloCarrito">
+    <div class="contenedor">
+      <h2 id="tituloCarrito">Tu carrito</h2>
+      <p class="sub">Junta las piezas que te gustan y pide la cotización de todas en un solo mensaje. Se guardan en este dispositivo aunque cierres o recargues la página.</p>
+      <div id="listaCarrito"></div>
     </div>
   </section>
 
@@ -1116,7 +1138,7 @@ function leerConsentimiento(){ try { return JSON.parse(localStorage.getItem(CLAV
 function guardarConsentimiento(c){ try { localStorage.setItem(CLAVE_COOKIES, JSON.stringify({ ...c, fecha:new Date().toISOString() })); } catch(e){} }
 function marcarPreferencias(c){ $('#prefAnaliticas').checked = !!(c && c.analiticas); $('#prefMarketing').checked = !!(c && c.marketing); }
 function medirVista(vista){
-  const titulos = { inicio:'Cotizar pieza', sets:'Sets para eventos', catalogo:'Catálogo' };
+  const titulos = { inicio:'Cotizar pieza', sets:'Sets para eventos', catalogo:'Catálogo', carrito:'Carrito' };
   try { if (window.gtag) gtag('event', 'page_view', { page_title:`Jaspe · ${titulos[vista] || vista}`, page_location:location.href, page_path:'/' + (vista === 'inicio' ? '' : vista) }); } catch(e){}
 }
 function avisar(texto){ const el = $('#aviso'); el.textContent = texto; el.classList.add('visible'); clearTimeout(avisar.t); avisar.t = setTimeout(() => el.classList.remove('visible'), 3600); }
@@ -1164,6 +1186,65 @@ document.addEventListener('click', e => {
   track('Contact', { origen:'whatsapp' }); abrirWhatsApp('Hola Jaspe, quiero cotizar una pieza. Te mando la foto:');
 });
 
+/* ---------- carrito (se guarda en el dispositivo) ---------- */
+const CLAVE_CARRITO = 'jaspe-carrito';
+let carrito = [];
+try { carrito = (JSON.parse(localStorage.getItem(CLAVE_CARRITO) || '[]') || []).filter(i => i && PRODUCTOS.some(p => p.codigo === i.codigo)); } catch(e){ carrito = []; }
+function guardarCarrito(){ try { localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito)); } catch(e){} pintarContador(); if (document.body.dataset.vista === 'carrito') pintarCarrito(); }
+function pintarContador(){ const n = carrito.reduce((s, i) => s + i.cantidad, 0); const c = $('#contadorCarrito'); c.textContent = n; c.hidden = !n; $('#botonCarrito').setAttribute('aria-label', `Carrito de cotización, ${n} pieza${n === 1 ? '' : 's'}`); }
+function lineaCarrito(i){
+  const p = PRODUCTOS.find(x => x.codigo === i.codigo); const v = (p.variantes && i.v != null) ? p.variantes[i.v] : null;
+  return { p, v, unit:precio(p, v), unitT:precioTransferencia(p, v) };
+}
+function agregarCarrito(codigo, v = null, medida = null){
+  const p = PRODUCTOS.find(x => x.codigo === codigo); if (!p) return;
+  if (v == null && p.variantes && p.variantes.length) v = 0;
+  if (medida == null && p.medida) medida = p.medida.opciones[0];
+  const ya = carrito.find(i => i.codigo === codigo && i.v === v && i.medida === medida);
+  if (ya) ya.cantidad = Math.min(10, ya.cantidad + 1); else carrito.push({ codigo, v, medida, cantidad:1 });
+  guardarCarrito();
+  try { track('AddToCart', { content_ids:[codigo], value:precio(p, v ? p.variantes[v] : null) || 0, currency:'MXN' }); } catch(e){}
+  avisar(`${p.nombre} se agregó a tu carrito.`);
+}
+function pintarCarrito(){
+  const cont = $('#listaCarrito');
+  if (!carrito.length){ cont.innerHTML = '<p class="carro-vacio">Tu carrito está vacío.</p><a class="btn" href="#catalogo">Ver el catálogo</a>'; return; }
+  let total = 0, totalT = 0, sinPrecio = 0;
+  const filas = carrito.map((i, idx) => {
+    const { p, v, unit, unitT } = lineaCarrito(i);
+    if (unit){ total += unit * i.cantidad; totalT += (unitT || unit) * i.cantidad; } else sinPrecio++;
+    const det = [metalTexto(p), v ? `calibre ${v.cal || 'único'}, ${v.peso} g ${p.pesoRef || ''}`.trim() : pesoTexto(p), i.medida ? `${p.medida.etiqueta.toLowerCase()} ${i.medida}` : ''].filter(Boolean).join(' · ');
+    return `<li class="carro-item"><img src="${p.foto}" alt="" loading="lazy">
+      <div><h3><a href="#pieza-${p.codigo}" style="color:inherit;text-decoration:none">${esc(p.nombre)}</a></h3><div class="meta">${esc(det)} · ${p.codigo}</div></div>
+      <div class="derecha"><span class="precio-linea">${unit ? moneda.format(unit * i.cantidad) : 'Precio por WhatsApp'}</span>
+        <span class="cantidad"><button type="button" data-cant="${idx}" data-d="-1" aria-label="Quitar uno">−</button><span>${i.cantidad}</span><button type="button" data-cant="${idx}" data-d="1" aria-label="Agregar uno">+</button></span>
+        <button class="quitar" type="button" data-quitar="${idx}">Quitar</button></div></li>`;
+  }).join('');
+  cont.innerHTML = `<ul class="carro-lista">${filas}</ul>
+    <div class="carro-total"><div><strong>${moneda.format(total)}</strong> <span>${totalT && totalT !== total ? `· ${moneda.format(totalT)} por transferencia` : ''}${sinPrecio ? ` · más ${sinPrecio} pieza${sinPrecio === 1 ? '' : 's'} por cotizar` : ''}</span></div><span>Envío aparte · te confirmamos precio y disponibilidad</span></div>
+    <div class="carro-ctas"><button class="btn" type="button" id="cotizarCarrito">${ICON.wa}Pedir cotización de todo por WhatsApp</button><button class="btn-linea" type="button" id="vaciarCarrito">Vaciar carrito</button><a class="enlace-nav" href="#catalogo">Seguir viendo</a></div>`;
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-agregar]'); if (a){ agregarCarrito(a.dataset.agregar); return; }
+  const c = e.target.closest('[data-cant]'); if (c){ const i = carrito[+c.dataset.cant]; if (!i) return; i.cantidad = Math.max(1, Math.min(10, i.cantidad + +c.dataset.d)); guardarCarrito(); return; }
+  const q = e.target.closest('[data-quitar]'); if (q){ carrito.splice(+q.dataset.quitar, 1); guardarCarrito(); return; }
+  if (e.target.closest('#vaciarCarrito')){ carrito = []; guardarCarrito(); return; }
+  if (e.target.closest('#cotizarCarrito')){
+    const folio = folioNuevo(); const dir = sesion && direcciones[0]; let total = 0, totalT = 0;
+    const lineas = carrito.map((i, n) => {
+      const { p, v, unit, unitT } = lineaCarrito(i); if (unit){ total += unit * i.cantidad; totalT += (unitT || unit) * i.cantidad; }
+      const det = [metalTexto(p).toLowerCase(), v ? `calibre ${v.cal || 'único'}, ${v.peso} g ${p.pesoRef || ''}`.trim() : pesoTexto(p), i.medida ? `${p.medida.etiqueta.toLowerCase()} ${i.medida}` : ''].filter(Boolean).join(', ');
+      return `${n + 1}. ${p.nombre} (${p.codigo}), ${det}${i.cantidad > 1 ? `, ${i.cantidad} piezas` : ''}: ${unit ? moneda.format(unit * i.cantidad) : 'precio por cotizar'}\n   ${enlacePieza(p.codigo)}`;
+    });
+    const msg = `Hola Jaspe, quiero cotizar estas piezas. Folio: ${folio}\n\n${lineas.join('\n')}\n\nTotal publicado: ${moneda.format(total)}${totalT && totalT !== total ? ` (${moneda.format(totalT)} por transferencia)` : ''}${dir ? `\nEnvío a: ${dir.recibe}, ${dir.telefono}, ${textoDireccion(dir)}${dir.lat != null ? `\nUbicación exacta: ${enlaceMapa(dir)}` : ''}` : ''}\n¿Están disponibles?`;
+    registrar('consulta', folio, { carrito:carrito.map(i => ({ codigo:i.codigo, cantidad:i.cantidad, medida:i.medida || undefined, calibre:(lineaCarrito(i).v || {}).cal })), total, direccion:dir ? textoDireccion(dir) : undefined });
+    try { track('InitiateCheckout', { content_ids:carrito.map(i => i.codigo), value:total, currency:'MXN' }); } catch(e){}
+    abrirWhatsApp(msg);
+  }
+});
+window.addEventListener('storage', e => { if (e.key === CLAVE_CARRITO){ try { carrito = JSON.parse(e.newValue || '[]') || []; } catch(_){ carrito = []; } pintarContador(); if (document.body.dataset.vista === 'carrito') pintarCarrito(); } });
+pintarContador();
+
 /* ---------- vistas ---------- */
 let catalogoPintado = false, setsPintado = false;
 function irACotizar(){
@@ -1174,8 +1255,9 @@ function irACotizar(){
 function aplicarVista(){
   const h = location.hash;
   const piezaCod = h.startsWith('#pieza-') ? decodeURIComponent(h.slice(7)) : null;
-  const vista = (h === '#catalogo' || h === '#piezas' || piezaCod) ? 'catalogo' : 'inicio';
+  const vista = h === '#carrito' ? 'carrito' : (h === '#catalogo' || h === '#piezas' || piezaCod) ? 'catalogo' : 'inicio';
   document.body.dataset.vista = vista;
+  if (vista === 'carrito'){ medirVista(vista); pintarCarrito(); window.scrollTo(0, 0); return; }
   medirVista(vista);
   if (vista === 'catalogo' && !catalogoPintado){ catalogoPintado = true; pintarCatalogo(); if (observador) observador.observe($('#centinela')); }
   if (piezaCod){ abrirFicha(piezaCod, false); return; }
@@ -1530,6 +1612,7 @@ function tarjeta(p){
       <div class="meta">${metalTexto(p)}${pesoTexto(p) ? ', ' + pesoTexto(p) : ''}</div>
       ${total ? `<div class="precio"><strong>${p.variantes && p.variantes.length > 1 ? 'desde ' : ''}${moneda.format(total)}</strong>${textoTransferencia(p)}</div>` : '<div class="precio"><strong style="font-size:15px;font-weight:400">Precio por WhatsApp</strong></div>'}
       <button class="preguntar" type="button" data-preguntar="${p.codigo}">${ICON.wa}Preguntar disponibilidad</button>
+      <button class="agregar" type="button" data-agregar="${p.codigo}">Agregar al carrito</button>
     </div>
   </article>`;
 }
@@ -1630,6 +1713,7 @@ function abrirFicha(codigo, actualizarHash = true){
         </div>
         <div class="ctas">
           <button class="btn" type="button" id="preguntarFicha">${ICON.wa}Preguntar disponibilidad</button>
+          <button class="btn-linea" type="button" id="carritoFicha">Agregar al carrito</button>
           <button class="btn-linea" type="button" id="apartarFicha">Apártala con anticipo</button>
           <small>Preguntar no te compromete: te cotizamos y tú decides. Respondemos ${CONFIG.horario}.</small>
         </div>
@@ -1646,6 +1730,7 @@ function abrirFicha(codigo, actualizarHash = true){
     ficha.querySelectorAll('[data-medida]').forEach(b => b.onclick = () => { sel.medida = b.dataset.medida; pintar(); });
     ficha.querySelectorAll('[data-variante]').forEach(b => b.onclick = () => { sel.variante = p.variantes[+b.dataset.variante]; pintar(); });
     $('#preguntarFicha').onclick = () => { track('Contact', { content_ids:[p.codigo], value:precio(p, sel.variante) || 0, currency:'MXN' }); registrar('consulta', folioNuevo(), { codigo:p.codigo, nombre:p.nombre, precio:precio(p, sel.variante), medida:sel.medida, calibre:sel.variante && sel.variante.cal }); abrirWhatsApp(mensajePregunta(p, sel)); };
+    $('#carritoFicha').onclick = () => agregarCarrito(p.codigo, sel.variante ? p.variantes.indexOf(sel.variante) : null, sel.medida);
     $('#apartarFicha').onclick = () => {
       track('InitiateCheckout', { content_ids:[p.codigo] });
       const folio = folioNuevo(); const dir = sesion && direcciones[0];
