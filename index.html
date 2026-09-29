@@ -114,6 +114,8 @@ dialog.ficha::backdrop{ background:var(--backdrop); backdrop-filter:blur(3px); }
 .ficha-info{ padding:clamp(24px,4vw,48px); display:flex; flex-direction:column; gap:16px; position:relative; }
 .icono-btn{ width:44px; height:44px; display:inline-grid; place-items:center; background:none; border:0; cursor:pointer; color:var(--ink); border-radius:50%; }
 .cerrar{ position:absolute; right:10px; top:10px; }
+.aviso-precio{ display:flex; align-items:center; gap:14px 20px; flex-wrap:wrap; margin:0 0 22px; padding:14px 18px; border:1px solid var(--gold); border-radius:12px; background:var(--surface); }
+.aviso-precio p{ flex:1 1 260px; margin:0; font-size:14px; color:var(--ink-2); } .aviso-precio strong{ color:var(--ink); }
 .estado{ display:flex; flex-wrap:wrap; gap:8px; font-size:13px; }
 .estado span{ display:inline-flex; align-items:center; gap:6px; height:30px; padding:0 12px; background:var(--panel); border-radius:999px; }
 .estado svg{ width:13px; height:13px; }
@@ -514,7 +516,7 @@ a.btn-linea{ text-decoration:none; }
       <h2 id="tituloPasos">Así funciona</h2>
       <ol>
         <li><h3>Mándanos la pieza</h3><p>Foto o descripción, el peso que quieres y el kilataje. Desde aquí se abre tu WhatsApp con todo escrito.</p></li>
-        <li><h3>Te cotizamos con el oro del día</h3><p>Precio por gramo según el kilataje, con IVA incluido.</p></li>
+        <li><h3>Te cotizamos con el oro del día</h3><p>Precio final por gramo según el kilataje.</p></li>
         <li><h3>La hacemos y te la entregamos</h3><p>Con su sello, video de tu pieza en la báscula y garantía por escrito. En persona en Guadalajara o con envío asegurado.</p></li>
       </ol>
     </div>
@@ -524,6 +526,10 @@ a.btn-linea{ text-decoration:none; }
     <div class="contenedor">
       <h2 id="tituloPiezas">Piezas</h2>
       <p class="sub">Oro 10k y 14k, plata .925 italiana y plata con rodio, todas con su peso y su precio. Pregunta por la que te guste y te confirmamos disponibilidad.</p>
+      <div class="aviso-precio" role="note">
+        <p><strong>Confirma precio y disponibilidad por WhatsApp.</strong> Los precios cambian con el oro del día y el peso real de cada pieza. Antes de cualquier pago te confirmamos el precio final y que la pieza esté disponible. El envío se cotiza aparte. Si pagas por transferencia, te toca el precio más bajo que aparece en cada pieza.</p>
+        <button class="btn-linea" type="button" id="btnConfirmarWa">Confirmar por WhatsApp</button>
+      </div>
       <div class="filtros">
         <div class="grupo una-linea" id="grupos" role="group" aria-label="Para quién"></div>
         <div class="grupo una-linea" id="metales" role="group" aria-label="Metal"></div>
@@ -657,13 +663,13 @@ a.btn-linea{ text-decoration:none; }
   <h3>1. Cuentas</h3>
   <p>Para crear una cuenta debes ser mayor de 18 años y dar datos verdaderos. Eres responsable de guardar tu contraseña y de lo que se haga con tu cuenta. Si crees que alguien más la usa, avísanos por WhatsApp. Podemos suspender cuentas con datos falsos o uso indebido del sitio.</p>
   <h3>2. Precios y cotizaciones</h3>
-  <p>Los precios del sitio y del cotizador son de referencia: se calculan con el precio del metal del día y el peso aproximado de la pieza, incluyen IVA y pueden cambiar sin previo aviso. Una cotización no es una venta ni obliga a Jaspe a entregar la pieza. El precio final, la disponibilidad y el tiempo de entrega se confirman por escrito por WhatsApp antes de cualquier pago.</p>
+  <p>Los precios del sitio y del cotizador son de referencia: se calculan con el precio del metal del día y el peso aproximado de la pieza, son precios finales al público y pueden cambiar sin previo aviso. Una cotización no es una venta ni obliga a Jaspe a entregar la pieza. El precio final, la disponibilidad y el tiempo de entrega se confirman por escrito por WhatsApp antes de cualquier pago.</p>
   <h3>3. Peso, imágenes y disponibilidad</h3>
   <p>Las piezas se fabrican o se consiguen sobre pedido. El peso publicado es aproximado; el precio final corresponde al peso real de tu pieza, que te confirmamos con video en báscula antes del envío. Las fotografías son ilustrativas: tono, brillo y tamaño pueden variar ligeramente según la pantalla.</p>
   <h3>4. Pedidos y anticipos</h3>
   <p>Tu pedido queda confirmado cuando recibimos el pago o el anticipo acordado. El monto del anticipo, el plazo para liquidar y las condiciones en caso de cancelación se te informan por escrito antes de que pagues.</p>
   <h3>5. Envíos y entregas</h3>
-  <p>Hacemos envíos asegurados a toda la República y entregas en persona en la zona de Guadalajara. Los tiempos de paquetería son estimados. Revisa tu paquete al recibirlo y repórtanos de inmediato cualquier daño o faltante, con fotos o video.</p>
+  <p>Hacemos envíos asegurados a toda la República y entregas en persona en la zona de Guadalajara. El costo del envío no está incluido en el precio de la pieza: te lo cotizamos por WhatsApp según tu código postal antes de pagar. Los tiempos de paquetería son estimados. Revisa tu paquete al recibirlo y repórtanos de inmediato cualquier daño o faltante, con fotos o video.</p>
   <h3>6. Garantía y cambios</h3>
   <p>Aplican la <button type="button" class="enlace-chico" data-garantia style="padding:0">Garantía</button> contra defectos de fábrica y la <button type="button" class="enlace-chico" data-cambios style="padding:0">Política de cambios</button> publicadas en este sitio. No cubren daños por uso. Nada de esto limita los derechos que te da la Ley Federal de Protección al Consumidor.</p>
   <h3>7. Propiedad intelectual</h3>
@@ -740,7 +746,15 @@ const CONFIG = {
     plata: { CNEGRA:[120,100,15], CBLANCA:[125,100,15], CROSA:[130], CTURQUESA:[140,110,15], CAZUL:[130],
              T1:[110], T4:[120], DIJEVERDE:[150,125,10], RODIO:[160] } // [precio, precio si pesa más del límite, límite en g]
   },
-  margen: { oro: 0.40, plata: 0.80 },   // tu ganancia sobre el costo: 0.40 = 40 %
+  precioGramo: {                      // ORO: precio final al cliente por gramo, por catálogo (MXN). Ya trae tu ganancia. Si te das de alta en el SAT, debe incluir el IVA.
+    oro: { '02':1490, '02-1':1550, '03':1570, '04':1570, '04-1':1590, '05':1590, '06':1690, '07':1730, '14K':2290 }
+  },
+  margen: { oro: 0.40, plata: 0.80 },   // tu ganancia sobre el costo: 0.40 = 40 %. En oro solo se usa si falta la línea en precioGramo
+  comisionTarjeta: 0.045,             // se suma a todos los precios; quien paga por transferencia no la paga
+  referidos: {                        // links de influencers: jaspejoya.com/?ref=CODIGO  (código en MAYÚSCULAS, sin espacios)
+    // EJEMPLO: { nombre:'Ana', beneficio:'envío gratis en tu primera compra' },
+  },
+  diasReferido: 30,                   // días que se respeta el código después de que la persona entra por el link             // se suma a todos los precios para cubrir la comisión de terminal (Mercado Pago/Clip ≈ 4.2 % con IVA). 0 = sin cargo
   redondeo: { oro: 50, plata: 10 },     // el precio sube al múltiplo más cercano y termina en 9
   referencia: { 10: '04', 14: '14K' },  // catálogo que se usa para la referencia del cotizador
   pureza: { 10: 0.417, 14: 0.585, 18: 0.75 },
@@ -771,14 +785,18 @@ function costoGramo(p, peso){
   const t = CONFIG.costoGramo.plata[p.costo]; if (!t) return null;
   return (t.length === 3 && peso > t[2]) ? t[1] : t[0];
 }
-function redondear(valor, metal){ const r = CONFIG.redondeo[metal] || 10; return Math.ceil(valor / r) * r - 1; }
-function precioPorPeso(p, peso){
+function redondear(valor, metal, sinTarjeta){ const r = CONFIG.redondeo[metal] || 10; if (!sinTarjeta) valor *= 1 + (CONFIG.comisionTarjeta || 0); return Math.ceil(valor / r) * r - 1; }
+function precioPorPeso(p, peso, sinTarjeta){
   const m = 1 + (CONFIG.margen[p.metal] || 0);
-  if (p.costoPieza) return redondear(p.costoPieza * m, p.metal);
+  if (p.costoPieza) return redondear(p.costoPieza * m, p.metal, sinTarjeta);
+  const pg = p.metal === 'oro' && CONFIG.precioGramo.oro[p.costo];
+  if (pg && peso) return redondear(peso * pg, 'oro', sinTarjeta);
   const cg = costoGramo(p, peso);
-  return (cg && peso) ? redondear(peso * cg * m, p.metal) : null;
+  return (cg && peso) ? redondear(peso * cg * m, p.metal, sinTarjeta) : null;
 }
 function precio(p, variante){ return precioPorPeso(p, variante ? variante.peso : p.peso); }
+function precioTransferencia(p, variante){ return precioPorPeso(p, variante ? variante.peso : p.peso, true); }
+function textoTransferencia(p, variante){ const t = CONFIG.comisionTarjeta ? precioTransferencia(p, variante) : null; return t ? `<span>${moneda.format(t)} por transferencia</span>` : ''; }
 function metalTexto(p){
   if (p.metal === 'oro') return `Oro ${p.k}k`;
   if (p.moissanita) return 'Plata .925 con moissanita';
@@ -961,7 +979,7 @@ async function registrar(tipo, folio, datos, pdf_url){
   try {
     const token = await tokenValido();
     await fetch(SB.url + '/rest/v1/cotizaciones', { method:'POST', headers:{ ...sbCabeceras(token), Prefer:'return=minimal' },
-      body:JSON.stringify({ folio, tipo, datos, pdf_url:pdf_url || null, user_id:token && sesion ? sesion.id : null }) });
+      body:JSON.stringify({ folio, tipo, datos:{ ...datos, ...(referidoActivo() ? { referido:referidoActivo() } : {}) }, pdf_url:pdf_url || null, user_id:token && sesion ? sesion.id : null }) });
   } catch(e){}   // si falla, el mensaje de WhatsApp igual sale
 }
 async function sbLeer(ruta){
@@ -1102,7 +1120,30 @@ function medirVista(vista){
   try { if (window.gtag) gtag('event', 'page_view', { page_title:`Jaspe · ${titulos[vista] || vista}`, page_location:location.href, page_path:'/' + (vista === 'inicio' ? '' : vista) }); } catch(e){}
 }
 function avisar(texto){ const el = $('#aviso'); el.textContent = texto; el.classList.add('visible'); clearTimeout(avisar.t); avisar.t = setTimeout(() => el.classList.remove('visible'), 3600); }
-function enlaceWhatsApp(mensaje){ return 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(mensaje); }
+document.addEventListener('click', e => { if (e.target.closest('#btnConfirmarWa')) abrirWhatsApp('Hola Jaspe, quiero confirmar precio y disponibilidad de una pieza.'); });
+/* ---------- links de referidos (influencers) ---------- */
+const CLAVE_REF = 'jaspe-referido';
+function referidoActivo(){
+  try { const r = JSON.parse(localStorage.getItem(CLAVE_REF) || 'null');
+    if (r && CONFIG.referidos[r.codigo] && Date.now() - r.fecha < (CONFIG.diasReferido || 30) * 864e5) return r.codigo; } catch(e){}
+  return null;
+}
+(function capturarReferido(){
+  const q = new URLSearchParams(location.search); const c = (q.get('ref') || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 30);
+  if (!c) return;
+  if (CONFIG.referidos[c]){
+    try { localStorage.setItem(CLAVE_REF, JSON.stringify({ codigo:c, fecha:Date.now() })); } catch(e){}
+    const r = CONFIG.referidos[c];
+    setTimeout(() => avisar(`Vienes de parte de ${r.nombre}${r.beneficio ? ': ' + r.beneficio : ''}. Tu código ${c} ya va en tus mensajes.`), 900);
+    try { track('Lead', { origen:'referido', codigo:c }); } catch(e){}
+  }
+  q.delete('ref'); history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);   // limpia la URL
+})();
+function enlaceWhatsApp(mensaje){
+  const r = referidoActivo();
+  if (r) mensaje += `\n\nCódigo de referido: ${r} (${CONFIG.referidos[r].nombre})`;
+  return 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(mensaje);
+}
 function abrirWhatsApp(mensaje, ventana){
   if (/x/i.test(CONFIG.whatsapp)) { avisar('Falta tu número de WhatsApp en CONFIG.whatsapp para activar este botón.'); if (ventana) ventana.close(); return false; }
   if (ventana && !ventana.closed) ventana.location.href = enlaceWhatsApp(mensaje);
@@ -1114,6 +1155,8 @@ function mensajePregunta(p, sel){
   let m = `Hola, me interesa ${p.nombre} (${p.codigo}), ${metalTexto(p).toLowerCase()}${sel && sel.variante ? `, ${sel.variante.peso} g ${p.pesoRef || ''}`.trimEnd() : (pesoTexto(p) ? ', ' + pesoTexto(p) : '')}`;
   if (sel && sel.medida) m += `, ${p.medida.etiqueta.toLowerCase()} ${sel.medida}`;
   if (sel && sel.variante) m += `, calibre ${sel.variante.cal || 'único'} (${sel.variante.largos})`;
+  const pt = CONFIG.comisionTarjeta ? precioTransferencia(p, sel && sel.variante) : null;
+  if (pt) m += `. Precio publicado ${moneda.format(precio(p, sel && sel.variante))} (${moneda.format(pt)} por transferencia)`;
   return m + `. Ref. ${p.ref}. La vi aquí: ${enlacePieza(p.codigo)} ¿Está disponible?`;
 }
 document.addEventListener('click', e => {
@@ -1161,7 +1204,7 @@ function pesoNumero(){ const v = parseFloat($('#peso').value); return v > 0 ? v 
 function pintarReferencia(){
   const ref = $('#referencia'); const g = pesoNumero();
   if (!g){ ref.hidden = true; return; }
-  const est = k => redondear(g * CONFIG.costoGramo.oro[CONFIG.referencia[k]] * (1 + CONFIG.margen.oro), 'oro');
+  const est = k => redondear(g * CONFIG.precioGramo.oro[CONFIG.referencia[k]], 'oro');
   const ks = ['10','14'].includes(cot.k) ? [cot.k] : ['10','14'];
   ref.innerHTML = ks.map(k => `<span>${g} g en ${k}k <strong>${moneda.format(est(k))}</strong></span>`).join('')
     + `<span>Referencia con el oro del ${CONFIG.fechaLista}; el precio final te lo confirmamos por WhatsApp.</span>`;
@@ -1485,7 +1528,7 @@ function tarjeta(p){
     <div class="pie">
       <h3>${esc(p.nombre)}</h3>
       <div class="meta">${metalTexto(p)}${pesoTexto(p) ? ', ' + pesoTexto(p) : ''}</div>
-      ${total ? `<div class="precio"><strong>${p.variantes && p.variantes.length > 1 ? 'desde ' : ''}${moneda.format(total)}</strong></div>` : '<div class="precio"><strong style="font-size:15px;font-weight:400">Precio por WhatsApp</strong></div>'}
+      ${total ? `<div class="precio"><strong>${p.variantes && p.variantes.length > 1 ? 'desde ' : ''}${moneda.format(total)}</strong>${textoTransferencia(p)}</div>` : '<div class="precio"><strong style="font-size:15px;font-weight:400">Precio por WhatsApp</strong></div>'}
       <button class="preguntar" type="button" data-preguntar="${p.codigo}">${ICON.wa}Preguntar disponibilidad</button>
     </div>
   </article>`;
@@ -1572,8 +1615,8 @@ function abrirFicha(codigo, actualizarHash = true){
         <button class="icono-btn cerrar" type="button" id="cerrarFicha" aria-label="Cerrar">${ICON.cerrar}</button>
         <div class="estado"><span>${ICON.reloj}Sobre pedido, confirma disponibilidad</span></div>
         <h2 id="fichaNombre">${esc(p.nombre)}</h2>
-        ${total ? `<div class="precio"><strong>${moneda.format(total)}</strong></div>
-        <div class="nota">${p.metal === 'oro' ? 'Precio con IVA incluido, con el oro del día.' : `Precio con IVA incluido${p.variantes ? `, para ${pesoSel} g ${p.pesoRef || ''}; cambia según el largo que elijas` : ''}.`}</div>`
+        ${total ? `<div class="precio"><strong>${moneda.format(total)}</strong>${textoTransferencia(p, sel.variante)}</div>
+        <div class="nota">${p.metal === 'oro' ? 'Precio final, con el oro del día.' : `Precio final${p.variantes ? `, para ${pesoSel} g ${p.pesoRef || ''}; cambia según el largo que elijas` : ''}.`} Envío aparte. Confirma precio y disponibilidad por WhatsApp antes de pagar.</div>`
         : `<div class="precio"><strong style="font-size:20px;font-weight:400">Precio por WhatsApp</strong></div><div class="nota">Te cotizamos según el calibre y el largo.</div>`}
         <dl class="specs">
           <div>${ICON.sello}<dt>Metal</dt><dd>${metalLargo(p)}</dd></div>
