@@ -202,6 +202,14 @@ dialog.cookies .pref-cookie input{ width:18px; height:18px; }
 .campo fieldset{ border:0; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
 .campo legend, .campo > label{ font-size:14px; font-weight:500; padding:0; }
 .campo .ayuda{ font-size:12px; color:var(--ink-2); margin:0; max-width:none; }
+.filtros-cot{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+.filtros-cot .adjuntar{ margin:0; height:46px; }
+.cotiza > .paso > .ayuda{ font-size:12.5px; color:var(--ink-2); margin:0 0 4px; }
+.filtro-cot{ height:46px; padding:0 18px; border:1px solid var(--line); border-radius:999px; background:var(--bg); color:var(--ink); font:inherit; font-size:15px; min-width:0; }
+.filtro-cot[hidden]{ display:none; }
+select.filtro-cot{ cursor:pointer; appearance:none; -webkit-appearance:none; padding-right:38px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23888' stroke-width='1.6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 16px center; }
+input.filtro-cot{ width:170px; }
+@media (max-width:720px){ .filtros-cot > *{ flex:1 1 calc(50% - 10px); } input.filtro-cot{ width:auto; } }
 .entrada{ width:100%; height:48px; padding:0 14px; border:1px solid var(--line); border-radius:var(--r-campo); background:var(--bg); color:var(--ink); font:inherit; font-size:15px; }
 textarea.entrada{ height:auto; min-height:80px; padding:12px 14px; resize:vertical; line-height:1.5; }
 .entrada::placeholder{ color:var(--ink-2); opacity:.8; }
@@ -219,6 +227,8 @@ textarea.entrada{ height:auto; min-height:80px; padding:12px 14px; resize:vertic
 .referencia[hidden]{ display:none; }
 .cotiza .error{ color:var(--error); font-size:13px; margin:0; }
 .cotiza .error:empty{ display:none; }
+.acciones-heroe{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; } .btn-catalogo{ height:54px; padding:0 26px; font-size:15px; }
+@media (max-width:560px){ .acciones-heroe{ flex-wrap:nowrap; gap:10px; } .acciones-heroe .btn,.acciones-heroe .btn-catalogo{ flex:1 1 0; min-width:0; padding:0 14px; height:52px; font-size:15px; white-space:nowrap; } }
 .cotiza .btn{ width:100%; height:56px; font-size:16px; }
 .cotiza .nota-envio{ font-size:12px; color:var(--ink-2); text-align:center; margin:-8px 0 0; }
 
@@ -426,7 +436,7 @@ a.btn-linea{ text-decoration:none; }
       <div>
         <h1 id="titulo">Arte que se hereda.</h1>
         <p>Joyería en oro 10k y 14k con su sello, su peso exacto y garantía por escrito. Dinos qué pieza quieres, cuánto quieres que pese y en qué kilataje, y te la cotizamos por WhatsApp con el oro del día.</p>
-        <button class="btn" type="button" data-ir="cotizar"><svg class="icono-wa" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>Cotiza tu pieza</button>
+        <div class="acciones-heroe"><button class="btn" type="button" data-ir="cotizar"><svg class="icono-wa" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>Cotiza tu pieza</button><a class="btn-linea btn-catalogo" href="#catalogo">Ver catálogo</a></div>
         <p class="nota-heroe">Sin compromiso. Respondemos rápido.</p>
       </div>
       <div class="foto-heroe" id="fotoHeroe" aria-hidden="true"></div>
@@ -438,81 +448,32 @@ a.btn-linea{ text-decoration:none; }
       <form class="cotiza" id="cotizar" novalidate aria-labelledby="tituloCotiza">
         <div class="cotiza-cab">
           <div>
-            <h2 id="tituloCotiza">Cotiza tu pieza</h2>
-            <p class="intro">Una pregunta a la vez. Al final se abre tu WhatsApp con todo escrito.</p>
+            <h2 id="tituloCotiza">Tú mándanos la foto. Nosotros la encontramos.</h2>
+            <p class="intro">La viste en Instagram, en una tienda o en alguien más: te la conseguimos. Solo llena estos 4 datos y te contestamos por WhatsApp.</p>
           </div>
-          <span class="paso-num">Paso <b id="pasoNum">1</b> de 6</span>
         </div>
-        <div class="barra" aria-hidden="true"><span id="barra"></span></div>
 
         <div class="paso" data-paso="1">
-          <div class="campo">
-            <fieldset>
-              <legend>¿Qué pieza quieres?</legend>
-              <div class="chips" id="chipsPieza"></div>
-              <p class="ayuda">Elige una y pasamos a la siguiente pregunta.</p>
-            </fieldset>
+          <div class="filtros-cot">
+            <button class="adjuntar" type="button" id="btnAdjuntar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.8"/></svg>Subir foto</button>
+            <select class="filtro-cot" id="mat" aria-label="Material">
+              <option value="">Material</option><option value="Oro">Oro</option><option value="Plata">Plata</option>
+            </select>
+            <select class="filtro-cot" id="kil" aria-label="Kilataje" hidden>
+              <option value="">Kilataje</option><option value="10">10k</option><option value="14">14k</option><option value="?">No sé</option>
+            </select>
+            <input class="filtro-cot" id="cm" type="text" maxlength="40" placeholder="Largo o talla" aria-label="Largo o talla, por ejemplo 50 cm o talla 7">
+            <input class="filtro-cot" id="presupuesto" type="text" inputmode="numeric" maxlength="12" placeholder="Presupuesto $" aria-label="Tu presupuesto en pesos">
           </div>
-        </div>
-
-        <div class="paso" data-paso="2" hidden>
-          <div class="campo">
-            <label for="descripcion">Descríbela o pega el enlace de la que viste</label>
-            <textarea class="entrada" id="descripcion" rows="3" maxlength="400" placeholder="Ej. cadena cubana de 60 cm, anillo con zirconia central, o el enlace de la pieza"></textarea>
-          </div>
-          <div class="campo">
-            <span class="etiqueta">Foto o archivo de referencia (opcional)</span>
-            <button class="adjuntar" type="button" id="btnAdjuntar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.8"/></svg>Adjuntar foto o PDF</button>
-            <input id="archivos" type="file" accept="image/*,.pdf,application/pdf" multiple hidden>
-            <ul class="adjuntos" id="adjuntos" aria-live="polite"></ul>
-            <p class="ayuda">Hasta 5 archivos. Las fotos se integran a tu cotización en PDF.</p>
-          </div>
-        </div>
-
-        <div class="paso" data-paso="3" hidden>
-          <div class="campo">
-            <fieldset>
-              <legend>¿Cuánto quieres que pese, aproximadamente?</legend>
-              <div class="peso">
-                <div class="con-unidad"><input class="entrada" id="peso" type="number" inputmode="decimal" min="0.1" max="500" step="0.1" placeholder="Ej. 3" aria-label="Peso aproximado en gramos"><span>g</span></div>
-                <div class="chips" id="chipsPeso"></div>
-              </div>
-              <p class="ayuda">Un anillo delgado pesa 1 a 2 g; una cadena para hombre, 10 g o más. Si no sabes, marca «No sé».</p>
-            </fieldset>
-          </div>
-        </div>
-
-        <div class="paso" data-paso="4" hidden>
-          <div class="campo">
-            <fieldset>
-              <legend>Kilataje</legend>
-              <div class="chips" id="chipsK"></div>
-              <p class="ayuda">10k es más resistente y económico; 14k tiene más oro y un color más intenso.</p>
-            </fieldset>
-          </div>
-        </div>
-
-        <div class="paso" data-paso="5" hidden>
-          <div class="campo">
-            <label for="medida">Talla o largo (opcional)</label>
-            <input class="entrada" id="medida" type="text" maxlength="60" placeholder="Ej. talla 7, o 50 cm">
-            <button class="enlace-chico" type="button" data-guia style="align-self:flex-start">¿Cuál es mi talla? Ver guía</button>
-          </div>
-        </div>
-
-        <div class="paso" data-paso="6" hidden>
-          <ul class="resumen" id="resumen" aria-label="Resumen de tu cotización"></ul>
-          <div class="referencia" id="referencia" hidden></div>
-          <button class="btn" type="submit"><svg class="icono-wa" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>Enviar cotización por WhatsApp</button>
+          <input id="archivos" type="file" accept="image/*" multiple hidden>
+          <ul class="adjuntos" id="adjuntos" aria-live="polite"></ul>
+          <p class="ayuda">Sube la foto (puede ser captura de pantalla) y elige material. Largo: cadena o pulsera en cm; anillo, tu talla.</p>
+          <button class="btn" type="submit"><svg class="icono-wa" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>Enviar por WhatsApp</button>
           <div class="paso-foto" id="pasoFoto" hidden></div>
-          <p class="nota-envio" id="notaEnvio">Tu cotización se arma en PDF (con tu foto) y va dentro del mensaje.</p>
+          <p class="nota-envio" id="notaEnvio">Se abre tu WhatsApp con todo escrito. Solo das enviar.</p>
         </div>
 
         <p class="error" id="errorCotiza" role="alert" aria-live="polite"></p>
-        <div class="nav-pasos">
-          <button class="btn-linea" type="button" id="btnAtras" hidden>Atrás</button>
-          <button class="btn" type="button" id="btnSig">Siguiente</button>
-        </div>
       </form>
     </div>
   </section>
@@ -525,16 +486,6 @@ a.btn-linea{ text-decoration:none; }
     </div>
   </section>
 
-  <section class="pasos solo-inicio" aria-labelledby="tituloPasos">
-    <div class="contenedor">
-      <h2 id="tituloPasos">Así funciona</h2>
-      <ol>
-        <li><h3>Mándanos la pieza</h3><p>Foto o descripción, el peso que quieres y el kilataje. Desde aquí se abre tu WhatsApp con todo escrito.</p></li>
-        <li><h3>Te cotizamos con el oro del día</h3><p>Precio final por gramo según el kilataje.</p></li>
-        <li><h3>La hacemos y te la entregamos</h3><p>Con su sello, video de tu pieza en la báscula y garantía por escrito. En persona en Guadalajara o con envío asegurado.</p></li>
-      </ol>
-    </div>
-  </section>
 
   <section class="carrito-vista solo-carrito" id="carrito" aria-labelledby="tituloCarrito">
     <div class="contenedor">
@@ -547,7 +498,7 @@ a.btn-linea{ text-decoration:none; }
   <section class="piezas solo-catalogo" id="piezas" aria-labelledby="tituloPiezas">
     <div class="contenedor">
       <h2 id="tituloPiezas">Piezas</h2>
-      <p class="sub">Oro 10k y 14k, plata .925 italiana y plata con rodio, todas con su peso y su precio. Pregunta por la que te guste y te confirmamos disponibilidad.</p>
+      <p class="sub">Oro 10k y 14k, plata .925 italiana y plata con rodio, todas con su peso. Pregunta por la que te guste y te confirmamos disponibilidad.</p>
       <div class="aviso-precio" role="note">
         <p><strong>Confirma precio y disponibilidad por WhatsApp.</strong> Los precios cambian con el oro del día y el peso real de cada pieza. Antes de cualquier pago te confirmamos el precio final y que la pieza esté disponible. El envío se cotiza aparte.</p>
         <button class="btn-linea" type="button" id="btnConfirmarWa">Confirmar por WhatsApp</button>
@@ -772,6 +723,7 @@ const CONFIG = {
     oro: { '02':1490, '02-1':1550, '03':1570, '04':1570, '04-1':1590, '05':1590, '06':1690, '07':1730, '14K':2290 }
   },
   margen: { oro: 0.40, plata: 0.80 },   // tu ganancia sobre el costo: 0.40 = 40 %. En oro solo se usa si falta la línea en precioGramo
+  minimoOro: [0.3, 1099],            // oro de menos de 1 g: la pieza de 0.3 g cuesta $1,099 y sube poco a poco hasta el precio de 1 g
   comisionTarjeta: 0.045,             // se suma a todos los precios para cubrir la comisión de tarjeta
   referidos: {                        // links de influencers: jaspejoya.com/?ref=CODIGO  (código en MAYÚSCULAS, sin espacios)
     // EJEMPLO: { nombre:'Ana', beneficio:'envío gratis en tu primera compra' },
@@ -812,6 +764,11 @@ function precioPorPeso(p, peso, sinTarjeta){
   const m = 1 + (CONFIG.margen[p.metal] || 0);
   if (p.costoPieza) return redondear(p.costoPieza * m, p.metal, sinTarjeta);
   const pg = p.metal === 'oro' && CONFIG.precioGramo.oro[p.costo];
+  if (pg && peso && peso < 1 && CONFIG.minimoOro){           // piezas de menos de 1 g: arrancan en el mínimo y suben hasta el precio de 1 g
+    const [pmin, minimo] = CONFIG.minimoOro, uno = redondear(pg, 'oro', sinTarjeta);
+    const t = Math.min(1, Math.max(0, (peso - pmin) / (1 - pmin)));
+    return Math.max(minimo, Math.ceil((minimo + (uno - minimo) * t) / 50) * 50 - 1);
+  }
   if (pg && peso) return redondear(peso * pg, 'oro', sinTarjeta);
   const cg = costoGramo(p, peso);
   return (cg && peso) ? redondear(peso * cg * m, p.metal, sinTarjeta) : null;
@@ -1178,7 +1135,6 @@ function mensajePregunta(p, sel){
   if (sel && sel.medida) m += `, ${p.medida.etiqueta.toLowerCase()} ${sel.medida}`;
   if (sel && sel.variante) m += `, calibre ${sel.variante.cal || 'único'} (${sel.variante.largos})`;
   const pt = CONFIG.comisionTarjeta ? precioTransferencia(p, sel && sel.variante) : null;
-  if (pt) m += `. Precio publicado ${moneda.format(precio(p, sel && sel.variante))}`;
   return m + `. Ref. ${p.ref}. La vi aquí: ${enlacePieza(p.codigo)} ¿Está disponible?`;
 }
 document.addEventListener('click', e => {
@@ -1216,12 +1172,11 @@ function pintarCarrito(){
     const det = [metalTexto(p), v ? `calibre ${v.cal || 'único'}, ${v.peso} g ${p.pesoRef || ''}`.trim() : pesoTexto(p), i.medida ? `${p.medida.etiqueta.toLowerCase()} ${i.medida}` : ''].filter(Boolean).join(' · ');
     return `<li class="carro-item"><img src="${p.foto}" alt="" loading="lazy">
       <div><h3><a href="#pieza-${p.codigo}" style="color:inherit;text-decoration:none">${esc(p.nombre)}</a></h3><div class="meta">${esc(det)} · ${p.codigo}</div></div>
-      <div class="derecha"><span class="precio-linea">${unit ? moneda.format(unit * i.cantidad) : 'Precio por WhatsApp'}</span>
-        <span class="cantidad"><button type="button" data-cant="${idx}" data-d="-1" aria-label="Quitar uno">−</button><span>${i.cantidad}</span><button type="button" data-cant="${idx}" data-d="1" aria-label="Agregar uno">+</button></span>
+      <div class="derecha"><span class="cantidad"><button type="button" data-cant="${idx}" data-d="-1" aria-label="Quitar uno">−</button><span>${i.cantidad}</span><button type="button" data-cant="${idx}" data-d="1" aria-label="Agregar uno">+</button></span>
         <button class="quitar" type="button" data-quitar="${idx}">Quitar</button></div></li>`;
   }).join('');
   cont.innerHTML = `<ul class="carro-lista">${filas}</ul>
-    <div class="carro-total"><div><strong>${moneda.format(total)}</strong> <span>${sinPrecio ? ` · más ${sinPrecio} pieza${sinPrecio === 1 ? '' : 's'} por cotizar` : ''}</span></div><span>Envío aparte · te confirmamos precio y disponibilidad</span></div>
+    <div class="carro-total"><span>Envío aparte · te confirmamos precio y disponibilidad</span></div>
     <div class="carro-ctas"><button class="btn" type="button" id="cotizarCarrito">${ICON.wa}Pedir cotización de todo por WhatsApp</button><button class="btn-linea" type="button" id="vaciarCarrito">Vaciar carrito</button><a class="enlace-nav" href="#catalogo">Seguir viendo</a></div>`;
 }
 document.addEventListener('click', e => {
@@ -1234,9 +1189,9 @@ document.addEventListener('click', e => {
     const lineas = carrito.map((i, n) => {
       const { p, v, unit, unitT } = lineaCarrito(i); if (unit){ total += unit * i.cantidad; totalT += (unitT || unit) * i.cantidad; }
       const det = [metalTexto(p).toLowerCase(), v ? `calibre ${v.cal || 'único'}, ${v.peso} g ${p.pesoRef || ''}`.trim() : pesoTexto(p), i.medida ? `${p.medida.etiqueta.toLowerCase()} ${i.medida}` : ''].filter(Boolean).join(', ');
-      return `${n + 1}. ${p.nombre} (${p.codigo}), ${det}${i.cantidad > 1 ? `, ${i.cantidad} piezas` : ''}: ${unit ? moneda.format(unit * i.cantidad) : 'precio por cotizar'}\n   ${enlacePieza(p.codigo)}`;
+      return `${n + 1}. ${p.nombre} (${p.codigo}), ${det}${i.cantidad > 1 ? `, ${i.cantidad} piezas` : ''}\n   ${enlacePieza(p.codigo)}`;
     });
-    const msg = `Hola Jaspe, quiero cotizar estas piezas. Folio: ${folio}\n\n${lineas.join('\n')}\n\nTotal publicado: ${moneda.format(total)}${dir ? `\nEnvío a: ${dir.recibe}, ${dir.telefono}, ${textoDireccion(dir)}${dir.lat != null ? `\nUbicación exacta: ${enlaceMapa(dir)}` : ''}` : ''}\n¿Están disponibles?`;
+    const msg = `Hola Jaspe, quiero cotizar estas piezas. Folio: ${folio}\n\n${lineas.join('\n')}${dir ? `\nEnvío a: ${dir.recibe}, ${dir.telefono}, ${textoDireccion(dir)}${dir.lat != null ? `\nUbicación exacta: ${enlaceMapa(dir)}` : ''}` : ''}\n¿Están disponibles?`;
     registrar('consulta', folio, { carrito:carrito.map(i => ({ codigo:i.codigo, cantidad:i.cantidad, medida:i.medida || undefined, calibre:(lineaCarrito(i).v || {}).cal })), total, direccion:dir ? textoDireccion(dir) : undefined });
     try { track('InitiateCheckout', { content_ids:carrito.map(i => i.codigo), value:total, currency:'MXN' }); } catch(e){}
     abrirWhatsApp(msg);
@@ -1269,45 +1224,12 @@ window.addEventListener('hashchange', aplicarVista);
 document.addEventListener('click', e => { if (e.target.closest('[data-ir="cotizar"]')) irACotizar(); });
 
 /* ---------- cotización ---------- */
-const PIEZAS = ['Anillo','Cadena','Pulsera','Aretes','Dije o medalla','Argollas','Esclava','Otra'];
-const PESOS = ['1','2','5','10','20','?'];
-const KILATES = ['10','14','?'];
-const cot = { pieza:'', peso:'', k:'' };
-function chips(id, lista, clave, texto){
-  $('#' + id).innerHTML = lista.map(v => `<button type="button" data-chip="${clave}" data-valor="${v}" aria-pressed="${cot[clave] === v}">${texto(v)}</button>`).join('');
-}
-function pintarChips(){
-  chips('chipsPieza', PIEZAS, 'pieza', v => v);
-  chips('chipsPeso', PESOS, 'peso', v => v === '?' ? 'No sé' : `${v} g`);
-  chips('chipsK', KILATES, 'k', v => v === '?' ? 'No sé, oriéntame' : `${v}k`);
-  pintarReferencia();
-}
-function pesoNumero(){ const v = parseFloat($('#peso').value); return v > 0 ? v : null; }
-function pintarReferencia(){
-  const ref = $('#referencia'); const g = pesoNumero();
-  if (!g){ ref.hidden = true; return; }
-  const est = k => redondear(g * CONFIG.precioGramo.oro[CONFIG.referencia[k]], 'oro');
-  const ks = ['10','14'].includes(cot.k) ? [cot.k] : ['10','14'];
-  ref.innerHTML = ks.map(k => `<span>${g} g en ${k}k <strong>${moneda.format(est(k))}</strong></span>`).join('')
-    + `<span>Referencia con el oro del ${CONFIG.fechaLista}; el precio final te lo confirmamos por WhatsApp.</span>`;
-  ref.hidden = false;
-}
-document.addEventListener('click', e => {
-  const c = e.target.closest('[data-chip]'); if (!c) return;
-  const clave = c.dataset.chip, v = c.dataset.valor;
-  cot[clave] = cot[clave] === v ? '' : v;
-  if (clave === 'peso') $('#peso').value = (cot.peso && cot.peso !== '?') ? cot.peso : '';
-  $('#errorCotiza').textContent = '';
-  pintarChips();
-  if (cot[clave] && paso < PASOS && ((clave === 'pieza' && paso === 1) || (clave === 'peso' && paso === 3) || (clave === 'k' && paso === 4))) setTimeout(() => irPaso(paso + 1, false), 260);
-});
-$('#peso').addEventListener('input', () => {
-  const g = pesoNumero();
-  cot.peso = g ? String(g) : '';
-  $('#peso').removeAttribute('aria-invalid'); $('#errorCotiza').textContent = '';
-  pintarChips();
-});
-$('#descripcion').addEventListener('input', () => { $('#descripcion').removeAttribute('aria-invalid'); $('#errorCotiza').textContent = ''; });
+const cot = { mat:'', k:'' };
+function pintarChips(){ $('#kil').hidden = cot.mat !== 'Oro'; }
+['mat','kil'].forEach(id => $('#' + id).addEventListener('change', () => {
+  cot.mat = $('#mat').value; cot.k = $('#kil').value;
+  $('#errorCotiza').textContent = ''; pintarChips();
+}));
 
 /* archivos adjuntos */
 const archivos = [];
@@ -1467,52 +1389,6 @@ function mostrarPasoPdf(conEnlace){
     catch(err){ if (err && err.name !== 'AbortError') avisar('No se pudo abrir el menú para compartir. Descarga el PDF y adjúntalo en el chat.'); }
   };
 }
-/* asistente paso a paso */
-const PASOS = 6; let paso = 1;
-const NOMBRE_PASO = { 1:'pieza', 2:'referencia', 3:'peso', 4:'kilataje', 5:'talla', 6:'resumen' };
-function irPaso(n, enfocar = true){
-  paso = Math.max(1, Math.min(PASOS, n));
-  document.querySelectorAll('#cotizar .paso').forEach(p => { p.hidden = +p.dataset.paso !== paso; });
-  $('#pasoNum').textContent = paso; $('#barra').style.width = `${(paso / PASOS) * 100}%`;
-  $('#btnAtras').hidden = paso === 1; $('#btnSig').hidden = paso === PASOS;
-  $('#errorCotiza').textContent = '';
-  if (paso === PASOS) pintarResumen();
-  const r = $('#cotizar').getBoundingClientRect();
-  if (r.top < 0) $('#cotizar').scrollIntoView({ block:'start' });
-  if (enfocar){ const f = document.querySelector('#cotizar .paso:not([hidden]) textarea, #cotizar .paso:not([hidden]) input[type="number"], #cotizar .paso:not([hidden]) input[type="text"]'); if (f && window.matchMedia('(min-width: 721px)').matches) f.focus({ preventScroll:true }); }
-  try { if (window.gtag) gtag('event', 'cotizador_paso', { paso, nombre: NOMBRE_PASO[paso] }); } catch(err){}
-}
-function validarPaso(n){
-  if (n === 1 && !cot.pieza) return 'Elige qué pieza quieres para continuar.';
-  if (n === 3 && !pesoNumero() && cot.peso !== '?') return 'Ponle un peso aproximado en gramos o marca «No sé».';
-  if (n === 4 && !cot.k) return 'Elige el kilataje, o marca «No sé, oriéntame».';
-  return '';
-}
-function siguientePaso(){
-  const err = validarPaso(paso);
-  if (err){ $('#errorCotiza').textContent = err; return; }
-  irPaso(paso + 1);
-}
-$('#btnSig').addEventListener('click', siguientePaso);
-$('#btnAtras').addEventListener('click', () => irPaso(paso - 1));
-$('#cotizar').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && e.target.tagName === 'INPUT' && paso < PASOS){ e.preventDefault(); siguientePaso(); }
-});
-function pintarResumen(){
-  const desc = $('#descripcion').value.trim(); const medida = $('#medida').value.trim(); const g = pesoNumero();
-  const filas = [
-    ['Pieza', cot.pieza || 'Sin elegir', 1],
-    ['Descripción', desc || 'Sin descripción', 2],
-    ['Archivos', archivos.length ? `${archivos.length} adjunto${archivos.length > 1 ? 's' : ''}` : 'Ninguno', 2],
-    ['Peso', g ? `${g} g` : (cot.peso === '?' ? 'No sé, oriéntenme' : 'Sin definir'), 3],
-    ['Kilataje', cot.k === '?' ? 'No sé, oriéntenme' : (cot.k ? `${cot.k}k` : 'Sin definir'), 4],
-    ['Talla o largo', medida || 'Sin especificar', 5]
-  ];
-  $('#resumen').innerHTML = filas.map(([k, v, p]) => `<li><span>${k}</span><em>${esc(v)}</em><button type="button" data-ir-paso="${p}">Cambiar</button></li>`).join('');
-  pintarReferencia();
-}
-document.addEventListener('click', e => { const b = e.target.closest('[data-ir-paso]'); if (b) irPaso(+b.dataset.irPaso); });
-
 function hayServidor(){ const c = CONFIG.subida; return !!(c && c.url && c.clave); }
 async function subirArchivo(f){
   const c = CONFIG.subida;
@@ -1536,24 +1412,18 @@ async function armarPdf(datos, folio){
 }
 $('#cotizar').addEventListener('submit', async e => {
   e.preventDefault();
-  const desc = $('#descripcion').value.trim(); const medida = $('#medida').value.trim(); const g = pesoNumero();
+  const cm = $('#cm').value.trim(); const pres = parseFloat($('#presupuesto').value.replace(/[^\d.]/g, '')) || null;
   const error = $('#errorCotiza');
-  if (!cot.pieza && !desc){ irPaso(1); error.textContent = 'Dinos qué pieza quieres: elige una o descríbela.'; return; }
-  if (!g && cot.peso !== '?'){ irPaso(3); error.textContent = 'Ponle un peso aproximado en gramos o marca «No sé».'; return; }
-  if (!cot.k){ irPaso(4); error.textContent = 'Elige el kilataje, o marca «No sé, oriéntame».'; return; }
-  const lineas = ['Hola Jaspe, quiero cotizar una pieza.'];
-  if (cot.pieza) lineas.push(`Pieza: ${cot.pieza}`);
-  if (desc) lineas.push(`Descripción: ${desc}`);
-  lineas.push(`Peso aproximado: ${g ? `${g} g` : 'no sé, oriéntenme'}`);
-  lineas.push(`Kilataje: ${cot.k === '?' ? 'no sé, oriéntenme' : `${cot.k}k`}`);
-  if (medida) lineas.push(`Talla o largo: ${medida}`);
-  track('Lead', { origen:'cotizador', pieza:cot.pieza, peso:g || 0, k:cot.k, archivos:archivos.length });
-  const datos = [];
-  if (cot.pieza) datos.push(['Pieza', cot.pieza]);
-  if (desc) datos.push(['Descripción', desc]);
-  datos.push(['Peso aproximado', g ? `${g} g` : 'No sé, oriéntenme']);
-  datos.push(['Kilataje', cot.k === '?' ? 'No sé, oriéntenme' : `${cot.k}k`]);
-  if (medida) datos.push(['Talla o largo', medida]);
+  if (!archivos.some(f => /^image\//.test(f.type))){ error.textContent = 'Sube la foto de la pieza que quieres.'; return; }
+  if (!cot.mat){ error.textContent = 'Elige si la quieres en oro o en plata.'; return; }
+  if (cot.mat === 'Oro' && !cot.k){ error.textContent = 'Elige el kilataje, o marca «No sé».'; return; }
+  const kil = cot.mat === 'Plata' ? 'Plata' : `Oro ${cot.k === '?' ? '(kilataje: no sé, oriéntenme)' : `${cot.k}k`}`;
+  const lineas = ['Hola Jaspe, quiero cotizar esta pieza.'];
+  lineas.push(`Material: ${kil}`);
+  lineas.push(`Largo o talla: ${cm || 'no sé'}`);
+  lineas.push(`Presupuesto: ${pres ? moneda.format(pres) : 'sin definir'}`);
+  track('Lead', { origen:'cotizador', material:cot.mat, k:cot.mat === 'Oro' ? cot.k : '', medida:cm, presupuesto:pres || 0, archivos:archivos.length });
+  const datos = [['Material', kil], ['Largo o talla', cm || 'No sé'], ['Presupuesto', pres ? moneda.format(pres) : 'Sin definir']];
   const btn = $('#cotizar button[type="submit"]');
   const ventana = window.open('about:blank', '_blank');   // se abre antes de esperar, para que el navegador no lo bloquee
   btn.disabled = true; btn.dataset.texto = btn.innerHTML; btn.innerHTML = 'Preparando tu cotización…';
@@ -1610,7 +1480,6 @@ function tarjeta(p){
     <div class="pie">
       <h3>${esc(p.nombre)}</h3>
       <div class="meta">${metalTexto(p)}${pesoTexto(p) ? ', ' + pesoTexto(p) : ''}</div>
-      ${total ? `<div class="precio"><strong>${p.variantes && p.variantes.length > 1 ? 'desde ' : ''}${moneda.format(total)}</strong>${textoTransferencia(p)}</div>` : '<div class="precio"><strong style="font-size:15px;font-weight:400">Precio por WhatsApp</strong></div>'}
       <button class="preguntar" type="button" data-preguntar="${p.codigo}">${ICON.wa}Preguntar disponibilidad</button>
       <button class="agregar" type="button" data-agregar="${p.codigo}">Agregar al carrito</button>
     </div>
@@ -1698,9 +1567,6 @@ function abrirFicha(codigo, actualizarHash = true){
         <button class="icono-btn cerrar" type="button" id="cerrarFicha" aria-label="Cerrar">${ICON.cerrar}</button>
         <div class="estado"><span>${ICON.reloj}Sobre pedido, confirma disponibilidad</span></div>
         <h2 id="fichaNombre">${esc(p.nombre)}</h2>
-        ${total ? `<div class="precio"><strong>${moneda.format(total)}</strong>${textoTransferencia(p, sel.variante)}</div>
-        <div class="nota">${p.metal === 'oro' ? 'Precio final, con el oro del día.' : `Precio final${p.variantes ? `, para ${pesoSel} g ${p.pesoRef || ''}; cambia según el largo que elijas` : ''}.`} Envío aparte. Confirma precio y disponibilidad por WhatsApp antes de pagar.</div>`
-        : `<div class="precio"><strong style="font-size:20px;font-weight:400">Precio por WhatsApp</strong></div><div class="nota">Te cotizamos según el calibre y el largo.</div>`}
         <dl class="specs">
           <div>${ICON.sello}<dt>Metal</dt><dd>${metalLargo(p)}</dd></div>
           <div>${ICON.peso}<dt>${p.piedras ? 'Piedras' : 'Peso'}</dt><dd>${p.piedras ? p.piedras : (sel.variante ? `${sel.variante.peso} g ${p.pesoRef || ''}` : `${p.peso} g aprox.`)}</dd></div>
@@ -1723,7 +1589,6 @@ function abrirFicha(codigo, actualizarHash = true){
           <li>${ICON.regalo}Empaque de regalo incluido</li>
           <li>${ICON.tarjeta}Pago seguro con tarjeta o transferencia</li>
         </ul>
-        ${total && porGramo ? `<div class="por-que"><strong>¿Por qué este precio?</strong>${p.metal === 'oro' ? `Oro ${p.k}k` : 'Plata .925'} por peso: ${pesoSel} g, a unos ${moneda.format(porGramo)} por gramo con ${p.metal === 'oro' ? 'el oro' : 'la plata'} del ${CONFIG.fechaLista}. Antes de enviarla te mandamos video de tu pieza en la báscula.</div>` : (total ? `<div class="por-que"><strong>¿Por qué este precio?</strong>Pulsera con precio por pieza: moissanita con certificado y plata .925. Antes de enviarla te mandamos video de tu pieza.</div>` : '')}
       </div>
     </div>`;
     $('#cerrarFicha').onclick = () => ficha.close();
@@ -1863,7 +1728,6 @@ $('#cuentaSalir').onclick = () => {
     $('#fotoHeroe').innerHTML = `<img src="${CONFIG.fotoHero || h.foto}" alt="">`;
   }
   pintarChips();
-  irPaso(1, false);
   if (CUENTAS){ pintarCuenta(); if (sesion){ sincronizar(false); pintarHistorial(); } }
   const consentimiento = leerConsentimiento();
   if (consentimiento) cargarMedicion(consentimiento); else bannerCookies.hidden = false;
